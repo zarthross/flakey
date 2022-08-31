@@ -1,6 +1,9 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p jq curl
+#!nix-shell -i bash -p jq curl gh
 # shellcheck shell=bash
+
+script="$0"
+basename="$(dirname $script)"
 
 function get_version() {
     gh release list  -R rxhanson/Rectangle --exclude-drafts | grep Latest | cut  -f 3
@@ -20,4 +23,4 @@ function generate_json() {
 
 json=$(generate_json)
 
-echo "$json" | jq . > sources.json
+echo "$json" | jq . > $basename/sources.json
