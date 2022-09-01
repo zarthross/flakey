@@ -5,11 +5,6 @@
 script="$0"
 basename="$(dirname $script)"
 
-function get_version() {
-    gh release list  -R rxhanson/Rectangle --exclude-drafts | grep Latest | cut  -f 3
-}
-
-
 function get_sha256() {
     curl -Ls $1 | sha256sum  | cut -f 1 -d ' '
 }
