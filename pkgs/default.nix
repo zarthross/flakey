@@ -2,4 +2,5 @@
 
 {
   rectangle = pkgs.callPackage ./rectangle {};
+  bitwarden = pkgs.callPackage ./bitwarden {};
 }
