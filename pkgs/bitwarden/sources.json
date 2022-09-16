@@ -1,10 +1,10 @@
 {
-  "version": "2022.9.0",
-  "release_id": 76905168,
-  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2022.9.0/Bitwarden-2022.9.0-universal.dmg",
-  "asset_id": 77626003,
-  "name": "Bitwarden-2022.9.0-universal.dmg",
-  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2022.9.0/latest-mac.yml",
-  "sha_asset_id": 77626076,
-  "hash": "sha512-hrcrsZohfMGw7TzxY9R5pxScL6mWXLXbU6bAu3oWSKX/2gb9fD17UnNrNcczr/qMu/cQoDhmtawkWin0pgHXNg=="
+  "version": "2022.9.1",
+  "release_id": 77318068,
+  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2022.9.1/Bitwarden-2022.9.1-universal.dmg",
+  "asset_id": 77988081,
+  "name": "Bitwarden-2022.9.1-universal.dmg",
+  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2022.9.1/latest-mac.yml",
+  "sha_asset_id": 77988099,
+  "hash": "sha512-PnnyJ+l4Hl63CY0+tvWaTCGFYGFXllmqgXDtDPbrvJORvmFipbgcr1/djpJFi/qI2WMDmnG0Pr4tTxRJwY61kw=="
 }
