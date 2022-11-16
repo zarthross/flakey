@@ -10,13 +10,13 @@ function get_sha256() {
 }
 
 function generate_json() {
-    githubData=$(gh api -H "Accept: application/vnd.github+json" /repos/rxhanson/Rectangle/releases/latest | jq '{version: .tag_name} * (.assets[]| select(.name|test("\\.dmg$")) | { id: .id, name: .name, url: .browser_download_url })')
+    githubData=$(gh api -H "Accept: application/vnd.github+json" /repos/newmarcel/KeepingYouAwake/releases/latest | jq '{version: .tag_name} * (.assets[]| select(.name|test("^KeepingYouAwake-.+zip$")) | { id: .id, name: .name, url: .browser_download_url })')
     sha=$(get_sha256 $(jq --jsonargs -r '.url' <<< "$githubData"))
 
     jq -s add <<< "$githubData {\"sha256\": \"$sha\" }"
 }
 
-echo "Updating Rectangle"
+echo "Updating KeepingYouAwake"
 
 json=$(generate_json)
 
