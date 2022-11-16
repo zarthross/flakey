@@ -16,6 +16,8 @@ function generate_json() {
     jq -s add <<< "$githubData {\"sha256\": \"$sha\" }"
 }
 
+echo "Updating Hot"
+
 json=$(generate_json)
 
 echo "$json" | jq . > $basename/sources.json

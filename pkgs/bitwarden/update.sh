@@ -22,6 +22,8 @@ function generate_json() {
     jq -s add <<< "$data {\"hash\": \"sha512-$sha\" }"
 }
 
+echo "Updating Bitwarden"
+
 json=$(generate_json)
 
 echo "$json" | jq . > $basename/sources.json
