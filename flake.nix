@@ -13,6 +13,7 @@
     let pkgs = import nixpkgs {inherit system;};
     in rec {
       packages = import ./pkgs { inherit inputs pkgs; };
+      overlays = import ./overlays  {inherit inputs pkgs;};
     }
   );
 }
