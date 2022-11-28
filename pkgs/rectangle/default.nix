@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
       '';
 
       src = pkgs.fetchurl {
-        name = "Rectangle-${version}.dmg";
+        name = "Rectangle-v${version}.dmg";
         inherit (sources) url sha256;
       };
 
