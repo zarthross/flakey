@@ -15,5 +15,9 @@
       ] (system:
         let pkgs = import nixpkgs { inherit system; };
         in { packages = import ./pkgs { inherit inputs pkgs; }; }));
-    in bySystem // { overlays = import ./overlays { inherit inputs; }; };
+    in bySystem // {
+      overlays = import ./overlays { inherit inputs; };
+      nixosModules = import ./nixos-modules;
+      homeManagerModules = import ./home-manager-modules;
+    };
 }
