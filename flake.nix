@@ -19,5 +19,6 @@
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./nixos-modules;
       homeManagerModules = import ./home-manager-modules;
+      darwinModules = import ./darwin-modules;
     };
 }
