@@ -70,6 +70,10 @@ Automatically adds a change report using `nvd` to each darwin-nix activation.
 
 ## Darwin packages
 
+A few OSX Apps that I use that aren't in nixpkgs, so I've add them to this repo.
+
+These are auto-updated nightly using a github actions.
+
 ### Bitwarden
 
 Darwin package for [Bitwarden](bitwarden.com/)
