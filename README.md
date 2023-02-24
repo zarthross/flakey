@@ -38,7 +38,7 @@ allowUnfree = true;  # EVERYTHING IS ALLOWED;
 or 
 
 ```
-# You can set this in multiple places since its a function...
+# You CANNOT set this in multiple places since its a function...
 allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "roon-server"
     "vscode"
