@@ -131,15 +131,6 @@ in stdenv.mkDerivation rec {
   cmakeFlags = [ "-DSLIC3R_STATIC=0" "-DSLIC3R_FHS=1" "-DSLIC3R_GTK=3" ];
 
   postInstall = ''
-    mv "$out/bin/prusa-slicer" "$out/bin/prusa-slicer-latest"
-    ln -s "$out/bin/prusa-slicer-latest" "$out/bin/prusa-gcodeviewer-latest"
-
-    mv "$out/share/applications/PrusaSlicer.desktop" "$out/share/applications/PrusaSlicerLatest.desktop"
-    mv "$out/share/applications/PrusaGcodeviewer.desktop" "$out/share/applications/PrusaGcodeviewerLatest.desktop"
-
-    sed -e 's/Name=PrusaSlicer/Name=PrusaSlicer Latest/' -e 's/Exec=prusa-slicer/Exec=prusa-slicer-latest/' "$out/share/applications/PrusaGcodeviewerLatest.desktop" > "$out/share/applications/PrusaGcodeviewerLatest.desktop"
-    sed -e 's/Name=Prusa GCode viewer/Name=Prusa GCode viewer Latest/' -e 's/Exec=prusa-slicer/Exec=prusa-slicer-latest/' "$out/share/applications/PrusaGcodeviewerLatest.desktop"> "$out/share/applications/PrusaGcodeviewerLatest.desktop"
-
     mkdir -p "$out/lib"
     mv -v $out/bin/*.* $out/lib/
 
