@@ -1,8 +1,13 @@
-{inputs, ...}:
+{ inputs, ... }:
 
 {
-  default = final: prev: import ../pkgs {
-    inherit inputs;
-    pkgs = final;
-  };
+  default = final: prev:
+      (import ../pkgs-darwin {
+        inherit inputs;
+        pkgs = final;
+      }) //
+      (import ../pkgs-linux {
+        inherit inputs;
+        pkgs = final;
+      });
 }

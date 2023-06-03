@@ -9,16 +9,29 @@
 
   outputs = { self, nixpkgs, flake-utils, ... }@inputs:
     let
-      bySystem = (flake-utils.lib.eachSystem [
+      # TODO: Clean this up... maybe us flake-parts instead?
+      bySystemDarwin = (flake-utils.lib.eachSystem [
         flake-utils.lib.system.x86_64-darwin
         flake-utils.lib.system.aarch64-darwin
       ] (system:
         let pkgs = import nixpkgs { inherit system; };
-        in { packages = import ./pkgs { inherit inputs pkgs; }; }));
-    in bySystem // {
+        in { packages = import ./pkgs-darwin { inherit inputs pkgs; }; }));
+      bySystemLinux =
+        (flake-utils.lib.eachSystem [ flake-utils.lib.system.x86_64-linux ]
+          (system:
+            let pkgs = import nixpkgs { inherit system; };
+            in { packages = import ./pkgs-linux { inherit inputs pkgs; }; }));
+      bySystem = {
+        packages = {
+          inherit (bySystemLinux.packages) "x86_64-linux";
+          inherit (bySystemDarwin.packages) "aarch64-darwin";
+          inherit (bySystemDarwin.packages) "x86_64-darwin";
+        };
+      };
+    in bySystem // ({
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./nixos-modules;
       homeManagerModules = import ./home-manager-modules;
       darwinModules = import ./darwin-modules;
-    };
+    });
 }
