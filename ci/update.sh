@@ -4,4 +4,4 @@
 
 echo "Starting Update"
 
-find ./pkgs -type f -name "update.sh" -exec {} \;
+find ./pkgs-darwin -type f -name "update.sh" -exec {} \;
