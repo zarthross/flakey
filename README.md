@@ -15,17 +15,19 @@
 │   └───default: Nixpkgs overlay
 └───packages
     ├───aarch64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2023.2.0'
+    │   ├───bitwarden: package 'Bitwarden-2023.9.1'
+    │   ├───brave: package 'Brave-1.58.135'
     │   ├───hot: package 'Hot-1.9.1'
-    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.4'
-    │   └───rectangle: package 'Rectangle-0.66'
+    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
+    │   └───rectangle: package 'Rectangle-0.73'
     ├───x86_64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2023.2.0'
+    │   ├───bitwarden: package 'Bitwarden-2023.9.1'
+    │   ├───brave: package 'Brave-1.58.135'
     │   ├───hot: package 'Hot-1.9.1'
-    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.4'
-    │   └───rectangle: package 'Rectangle-0.66'
+    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
+    │   └───rectangle: package 'Rectangle-0.73'
     └───x86_64-linux
-        └───prusa-slicer-latest: package 'prusa-slicer-latest-2.6.0-beta3'
+        └───prusa-slicer-latest: package 'prusa-slicer-latest-2.6.0-rc2'
 ```
 
 ## nixosModules 
@@ -79,6 +81,10 @@ These are auto-updated nightly using a github actions.
 ### Bitwarden
 
 Darwin package for [Bitwarden](bitwarden.com/)
+
+### Brave
+
+Darwin package for [Brave](https://brave.com/)
 
 ### keepingYouAwake
 
