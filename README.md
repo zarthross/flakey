@@ -20,14 +20,12 @@
     │   ├───hot: package 'Hot-1.9.1'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
     │   └───rectangle: package 'Rectangle-0.73'
-    ├───x86_64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2023.9.1'
-    │   ├───brave: package 'Brave-1.58.135'
-    │   ├───hot: package 'Hot-1.9.1'
-    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
-    │   └───rectangle: package 'Rectangle-0.73'
-    └───x86_64-linux
-        └───prusa-slicer-latest: package 'prusa-slicer-latest-2.6.0-rc2'
+    └───x86_64-darwin
+        ├───bitwarden: package 'Bitwarden-2023.9.1'
+        ├───brave: package 'Brave-1.58.135'
+        ├───hot: package 'Hot-1.9.1'
+        ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
+        └───rectangle: package 'Rectangle-0.73'
 ```
 
 ## nixosModules 
@@ -97,7 +95,3 @@ Darwin package for [Brave](https://brave.com/)
 ### Hot
 
 [Hot](https://xs-labs.com/en/apps/hot/overview/)  is macOS menu bar application that displays the CPU speed limit due to thermal issues. 
-
-### Prusa Slicer Latest
-
-Sometimes, Nix is behind on the bleeding edge of Prusa Slicer... I don't promise to keep this updated, but I will update this when I WANT the latest prusa slicer.
