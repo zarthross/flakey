@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
       };
 
       meta = {
-        description = "Move and resize windows on macOS with keyboard shortcuts and snap areas";
-        homepage = "https://rectangleapp.com/";
+        description = "Open source password management solutions for individuals, teams, and business organizations.";
+        homepage = "https://bitwarden.com/";
       };
 }
