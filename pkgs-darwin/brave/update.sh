@@ -12,7 +12,7 @@ function get_sha256() {
 function generate_json() {
 	releases=$(gh api -H 'Accept: application/vnd.github+json' /repos/brave/brave-browser/releases)
 
-	release=$(jq 'map(select(.name | startswith("Release"))) | max_by(.tag_name)' <<<$releases)
+	release=$(jq 'map(select(.name | startswith("Release")) | select(.prerelease == false))  | max_by(.tag_name)' <<<$releases)
 	version=$(jq '{ version: .tag_name[1:], release_id: .id }' <<<$release)
 
 	x64DMG=$(jq '.assets | map(select(.name | test("^Brave-Browser-x64\\.dmg$"))) | .[0] | {x64: {url: .browser_download_url, asset_id: .id, name: .name}}' <<<$release)
