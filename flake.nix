@@ -28,10 +28,11 @@
           inherit (bySystemDarwin.packages) "x86_64-darwin";
         };
       };
-    in bySystem // ({
+    in bySystem // (rec {
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./nixos-modules;
-      homeManagerModules = import ./home-manager-modules;
+      homeModules = import ./home-manager-modules;
+      homeManagerModules = homeModules; #Deprecated
       darwinModules = import ./darwin-modules;
     });
 }
