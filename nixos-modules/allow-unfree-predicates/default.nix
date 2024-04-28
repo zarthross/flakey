@@ -2,10 +2,18 @@
 
 let
   inherit (lib) mkOption types;
-  cfg = config.allowedUnfreePackagesRegexs;
+  cfg = config.nixpkgs.allowUnfreeRegexes;
 in {
+  imports = [
+    (lib.mkRenamedOptionModuleWith {
+      sinceRelease = 2024;
+      from = [ "allowedUnfreePackagesRegexs" ];
+      to = [ "nixpkgs" "allowUnfreeRegexes" ];
+    })
+  ];
+
   options = {
-    allowedUnfreePackagesRegexs = mkOption {
+    nixpkgs.allowUnfreeRegexes = mkOption {
       default = [ ];
       type = types.listOf types.str;
       description = "List of unfree packages allowed to be installed";
@@ -15,9 +23,9 @@ in {
 
   config = {
     nixpkgs.config.allowUnfreePredicate = pkg:
-      let pkgName = (lib.getName pkg);
-          matchPackges = (reg: ! builtins.isNull (builtins.match reg pkgName));
-      in
-        builtins.any matchPackges cfg;
+      let
+        pkgName = (lib.getName pkg);
+        matchPackges = (reg: !builtins.isNull (builtins.match reg pkgName));
+      in builtins.any matchPackges cfg;
   };
 }
