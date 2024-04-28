@@ -31,7 +31,7 @@
     in bySystem // (rec {
       overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./nixos-modules;
-      homeModules = import ./home-manager-modules;
+      homeModules = import ./home-modules;
       homeManagerModules = homeModules; #Deprecated
       darwinModules = import ./darwin-modules;
     });
