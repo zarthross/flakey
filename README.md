@@ -8,9 +8,9 @@
 ├───darwinModules: unknown
 ├───homeModules: unknown
 ├───nixosModules
-│   ├───allow-unfree-predicates: NixOS module
 │   ├───default: NixOS module
-│   └───nixos-change-report: NixOS module
+│   ├───allow-unfree-predicates: NixOS module
+│   └───nix-change-report: NixOS module
 ├───overlays
 │   └───default: Nixpkgs overlay
 └───packages
@@ -55,7 +55,7 @@ now you can write:
 nixpkgs.allowUnfreeRegexes = ["slack" "discord"];
 ```
 
-### nixos-change-report
+### nix-change-report
 
 Automatically adds a change report using `nvd` to each nixos activation.
 
@@ -63,7 +63,7 @@ Automatically adds a change report using `nvd` to each nixos activation.
 ### allow-unfree-predicates
 [See](#allow-unfree-predicates)
 
-### hm-change-report
+### nix-change-report
 
 Automatically adds a change report using `nvd` to each home-manager activation.
 
@@ -74,7 +74,7 @@ Activating checkFilesChanged
 Activating checkLinkTargets
 Activating writeBoundary
 Activating createGpgHomedir
-Activating hm-change-report
+Activating nix-change-report
 <<< /home/my-home/.local/state/nix/profiles/home-manager
 >>> /nix/store/w4vgy6jalyh1vc1ghgas13hpxb7qsgz0-home-manager-generation
 Removed packages:
@@ -93,7 +93,7 @@ Activating reloadSystemd
 ```
 
 ## darwinModules
-### nix-darwin-change-report
+### nix-change-report
 
 Automatically adds a change report using `nvd` to each darwin-nix activation.
 
