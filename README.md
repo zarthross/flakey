@@ -6,7 +6,7 @@
 
 ```
 ├───darwinModules: unknown
-├───homeManagerModules: unknown
+├───homeModules: unknown
 ├───nixosModules
 │   ├───allow-unfree-predicates: NixOS module
 │   ├───default: NixOS module
@@ -15,17 +15,17 @@
 │   └───default: Nixpkgs overlay
 └───packages
     ├───aarch64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2023.9.1'
-    │   ├───brave: package 'Brave-1.58.135'
+    │   ├───bitwarden: package 'Bitwarden-2024.4.1'
+    │   ├───brave: package 'Brave-1.65.126'
     │   ├───hot: package 'Hot-1.9.1'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
-    │   └───rectangle: package 'Rectangle-0.73'
+    │   └───rectangle: package 'Rectangle-0.77'
     └───x86_64-darwin
-        ├───bitwarden: package 'Bitwarden-2023.9.1'
-        ├───brave: package 'Brave-1.58.135'
+        ├───bitwarden: package 'Bitwarden-2024.4.1'
+        ├───brave: package 'Brave-1.65.126'
         ├───hot: package 'Hot-1.9.1'
         ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
-        └───rectangle: package 'Rectangle-0.73'
+        └───rectangle: package 'Rectangle-0.77'
 ```
 
 ## nixosModules 
@@ -34,14 +34,14 @@
 With this modules, instead of:
 
 ```
-allowUnfree = true;  # EVERYTHING IS ALLOWED;
+nixpkgs.config.allowUnfree = true;  # EVERYTHING IS ALLOWED;
 ```
 
 or 
 
 ```
 # You CANNOT set this in multiple places since its a function...
-allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "roon-server"
     "vscode"
   ];
@@ -52,18 +52,45 @@ now you can write:
 ```
 # Its just a list of package regexes you want to allow.  
 # you can set this in multiple modules and it just adds more regexes!!!
-allowedUnfreePackagesRegexs = ["slack" "discord"];
+nixpkgs.allowUnfreeRegexes = ["slack" "discord"];
 ```
+
 ### nixos-change-report
 
 Automatically adds a change report using `nvd` to each nixos activation.
 
-## homeManagerModules
+## homeModules
 ### allow-unfree-predicates
 [See](#allow-unfree-predicates)
+
 ### hm-change-report
 
 Automatically adds a change report using `nvd` to each home-manager activation.
+
+```
+❯ home-manager switch
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Activating writeBoundary
+Activating createGpgHomedir
+Activating hm-change-report
+<<< /home/my-home/.local/state/nix/profiles/home-manager
+>>> /nix/store/w4vgy6jalyh1vc1ghgas13hpxb7qsgz0-home-manager-generation
+Removed packages:
+[R.]  #1  ponysay-unstable  2021-03-27
+Closure size: 1392 -> 1391 (4 paths added, 5 paths removed, delta -1, disk usage -10.8MiB).
+Activating installPackages
+replacing old 'home-manager-path'
+installing 'home-manager-path'
+Activating migrateGhAccounts
+Activating linkGeneration
+Cleaning up orphan links from /home/my-home
+Creating profile generation 567
+Creating home file links in /home/my-home
+Activating onFilesChange
+Activating reloadSystemd
+```
 
 ## darwinModules
 ### nix-darwin-change-report
