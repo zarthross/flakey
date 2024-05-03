@@ -18,7 +18,9 @@
       flake = rec {
         nixosModules = import ./nixos-modules;
         homeModules = import ./home-modules;
-        homeManagerModules = homeModules; # Deprecated
+        homeManagerModules = builtins.trace
+          "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.["
+           homeModules;
         darwinModules = import ./darwin-modules;
       };
       systems = [
