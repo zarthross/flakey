@@ -1,26 +1,26 @@
 {
-  "version": "1.66.120",
-  "release_id": 158939105,
+  "version": "1.67.115",
+  "release_id": 160234618,
   "x64": {
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.66.120/Brave-Browser-x64.dmg",
-    "asset_id": 172111938,
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.67.115/Brave-Browser-x64.dmg",
+    "asset_id": 173559084,
     "name": "Brave-Browser-x64.dmg",
-    "sha": "sha256-uatodpKKUBzgQ5UosPlzM19femuj1YJ7/JiDuKrBCRk="
+    "sha": "sha256-iORMq4gYllP47+RMOAmlgU1He0DppH1B1U4/3i743To="
   },
   "arm64": {
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.66.120/Brave-Browser-arm64.dmg",
-    "asset_id": 172114202,
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.67.115/Brave-Browser-arm64.dmg",
+    "asset_id": 173561738,
     "name": "Brave-Browser-arm64.dmg",
-    "sha": "sha256-qrBkjBIAXwHpjnHqYaT+MLSKD64a0utJBENdj6aeRwE="
+    "sha": "sha256-xpHIcqWUDGJBPy9tQIdhjFKBRWcWV8UQp3cjdXDfu2I="
   },
   "x64-sha": {
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.66.120/Brave-Browser-x64.dmg.sha256",
-    "asset_id": 172111939,
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.67.115/Brave-Browser-x64.dmg.sha256",
+    "asset_id": 173559089,
     "name": "Brave-Browser-x64.dmg.sha256"
   },
   "arm64-sha": {
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.66.120/Brave-Browser-arm64.dmg.sha256",
-    "asset_id": 172114203,
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.67.115/Brave-Browser-arm64.dmg.sha256",
+    "asset_id": 173561739,
     "name": "Brave-Browser-arm64.dmg.sha256"
   }
 }
