@@ -1,4 +1,5 @@
 rec {
+  ghorg = ./ghorg;
   nix-change-report = ./nix-change-report;
   hm-change-report =
     builtins.trace
@@ -6,6 +7,6 @@ rec {
     nix-change-report;
   allow-unfree-predicates = ../nixos-modules/allow-unfree-predicates;
   default = {
-    imports = [ nix-change-report allow-unfree-predicates ];
+    imports = [ nix-change-report allow-unfree-predicates ghorg ];
   };
 }
