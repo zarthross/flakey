@@ -16,13 +16,11 @@
 └───packages
     ├───aarch64-darwin
     │   ├───bitwarden: package 'Bitwarden-2024.4.1'
-    │   ├───brave: package 'Brave-1.65.126'
     │   ├───hot: package 'Hot-1.9.1'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
     │   └───rectangle: package 'Rectangle-0.77'
     └───x86_64-darwin
         ├───bitwarden: package 'Bitwarden-2024.4.1'
-        ├───brave: package 'Brave-1.65.126'
         ├───hot: package 'Hot-1.9.1'
         ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
         └───rectangle: package 'Rectangle-0.77'
@@ -106,10 +104,6 @@ These are auto-updated nightly using a github actions.
 ### Bitwarden
 
 Darwin package for [Bitwarden](bitwarden.com/)
-
-### Brave
-
-Darwin package for [Brave](https://brave.com/)
 
 ### keepingYouAwake
 
