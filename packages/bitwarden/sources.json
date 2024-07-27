@@ -1,10 +1,10 @@
 {
-  "version": "2024.6.4",
-  "release_id": 163623780,
-  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2024.6.4/Bitwarden-2024.6.4-universal.dmg",
-  "asset_id": 177261125,
-  "name": "Bitwarden-2024.6.4-universal.dmg",
-  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2024.6.4/latest-mac.yml",
-  "sha_asset_id": 177261184,
-  "hash": "sha512-BSpOldt6QDpCZeJYrTOvFpA/pi8d7Wrt1RvQAUtOnjAINxFMCy7pMqRsnBgf8m2b2pWhq5kIvyPey9y8dVdJJg=="
+  "version": "2024.7.1",
+  "release_id": 167247740,
+  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2024.7.1/Bitwarden-2024.7.1-universal.dmg",
+  "asset_id": 181904622,
+  "name": "Bitwarden-2024.7.1-universal.dmg",
+  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2024.7.1/latest-mac.yml",
+  "sha_asset_id": 181904705,
+  "hash": "sha512-dwLKaNb5C/B72NYqCADlLQoRIqDuawaDNv4eU6gW/gVhkee67OgUnwUiYtTrzOrh3x5VIjAfm+YKNwich18cTw=="
 }
