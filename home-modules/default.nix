@@ -7,6 +7,6 @@ rec {
     nix-change-report;
   allow-unfree-predicates = ../nixos-modules/allow-unfree-predicates;
   default = {
-    imports = [ nix-change-report allow-unfree-predicates ghorg ];
+    imports = [ nix-change-report allow-unfree-predicates ];
   };
 }
