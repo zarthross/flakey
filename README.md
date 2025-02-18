@@ -116,3 +116,22 @@ Darwin package for [Bitwarden](bitwarden.com/)
 ### Hot
 
 [Hot](https://xs-labs.com/en/apps/hot/overview/)  is macOS menu bar application that displays the CPU speed limit due to thermal issues. 
+
+## FAQ
+
+### Collect Garbage `chmod ... operation not permitted`
+
+#### Problem: 
+When running `nix-collect-garbage --delete-older-than 16`
+
+You get something like 
+`error: chmod '/nix/store/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-some-app-1.2.3/Applications/SomeApp.app': Operation not permitted`
+
+#### Solution: 
+
+Grant `nix` full disk access.
+
+1. Goto `Apple -> System Settings -> Privacy & Security -> Ful Disk Access`
+2. Find `nix`
+    * if you find multiple `nix` try removing all by highlighting them and clicking the `-` at the bottom, and try collecting garbage again.  You'll then see only a single `nix` entry show up.
+3. Check the box for `nix`
