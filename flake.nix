@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    devshell.url = "github:numtide/devshell";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs =
@@ -14,13 +16,15 @@
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [./packages];
+      imports = [
+        ./packages
+        inputs.devshell.flakeModule
+        inputs.treefmt-nix.flakeModule
+      ];
       flake = rec {
         nixosModules = import ./nixos-modules;
         homeModules = import ./home-modules;
-        homeManagerModules = builtins.trace
-          "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.["
-           homeModules;
+        homeManagerModules = builtins.trace "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.[" homeModules;
         darwinModules = import ./darwin-modules;
       };
       systems = [
@@ -32,7 +36,17 @@
       perSystem =
         { pkgs, ... }:
         {
-          formatter = pkgs.nixfmt-rfc-style;
+          devshells.default = { };
+          treefmt = {
+            projectRootFile = "flake.nix";
+            programs.nixfmt.enable = true;
+            programs.shfmt.enable = true;
+            programs.taplo.enable = true;
+            settings.global.excludes = [
+              ".github/**"
+              "README.md"
+            ];
+          };
         };
     };
 }
