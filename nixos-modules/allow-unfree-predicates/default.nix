@@ -1,14 +1,24 @@
-{ config, pkgs, nixpkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  nixpkgs,
+  lib,
+  ...
+}:
 
 let
   inherit (lib) mkOption types;
   cfg = config.nixpkgs.allowUnfreeRegexes;
-in {
+in
+{
   imports = [
     (lib.mkRenamedOptionModuleWith {
       sinceRelease = 2024;
       from = [ "allowedUnfreePackagesRegexs" ];
-      to = [ "nixpkgs" "allowUnfreeRegexes" ];
+      to = [
+        "nixpkgs"
+        "allowUnfreeRegexes"
+      ];
     })
   ];
 
@@ -22,10 +32,12 @@ in {
   };
 
   config = {
-    nixpkgs.config.allowUnfreePredicate = pkg:
+    nixpkgs.config.allowUnfreePredicate =
+      pkg:
       let
         pkgName = (lib.getName pkg);
         matchPackges = (reg: !builtins.isNull (builtins.match reg pkgName));
-      in builtins.any matchPackges cfg;
+      in
+      builtins.any matchPackges cfg;
   };
 }
