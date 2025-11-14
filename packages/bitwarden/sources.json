@@ -1,10 +1,10 @@
 {
-  "version": "2025.10.0",
-  "release_id": 255146677,
-  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2025.10.0/Bitwarden-2025.10.0-universal.dmg",
-  "asset_id": 305189140,
-  "name": "Bitwarden-2025.10.0-universal.dmg",
-  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2025.10.0/latest-mac.yml",
-  "sha_asset_id": 305189197,
-  "hash": "sha512-gA2sY7b877gGrcUbFGTLwjNxCZxt+HeHHzufZoglXH8FHSYw34IXOwOlEET8VUGjYFnx/cWSnMUOFlFvnzhsZQ=="
+  "version": "2025.11.0",
+  "release_id": 262274137,
+  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2025.11.0/Bitwarden-2025.11.0-universal.dmg",
+  "asset_id": 316137633,
+  "name": "Bitwarden-2025.11.0-universal.dmg",
+  "sha_url": "https://github.com/bitwarden/clients/releases/download/desktop-v2025.11.0/latest-mac.yml",
+  "sha_asset_id": 316137782,
+  "hash": "sha512-4zRBkbGM5HHkoi51gmGEWDKdkBe9RwbW5FpKRehxcqBf7YjRQvFxoxvqMmfdTTgLb1nYCn5yWtfog3o3EhA39w=="
 }
