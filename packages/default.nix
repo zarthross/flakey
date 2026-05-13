@@ -24,6 +24,7 @@
             bitwarden = pkgs.callPackage ./bitwarden { };
             hot = pkgs.callPackage ./hot { };
             keepingYouAwake = pkgs.callPackage ./KeepingYouAwake { };
+            omniwm = pkgs.callPackage ./omniwm { };
             rectangle = pkgs.callPackage ./rectangle { };
           }
         else
