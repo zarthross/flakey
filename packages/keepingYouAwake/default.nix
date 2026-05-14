@@ -1,15 +1,15 @@
 { pkgs, stdenv, lib }:
 
 let
-  packageName = "hot";
+  packageName = "keepingYouAwake";
 in
 stdenv.mkDerivation rec {
-  pname = "Hot";
-  version = "1.9.4";
+  pname = "KeepingYouAwake";
+  version = "1.6.8";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/macmade/Hot/releases/download/${version}/Hot.zip";
-    hash = "sha256-5PbM92Bmc+5hGHC/sdTMi+hqUIBY24+btc9B6ZftYco=";
+    url = "https://github.com/newmarcel/KeepingYouAwake/releases/download/${version}/KeepingYouAwake-${version}.zip";
+    hash = "sha256-gAGhSbRJDACP2sGYmLzpkC1RbEqmQSp+sPmjdEOxXGs=";
   };
 
   buildInputs = [
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
   ];
   installPhase = ''
     mkdir -p $out/Applications
-    cp -r Hot.app "$out/Applications/"
+    cp -r KeepingYouAwake.app "$out/Applications/"
   '';
 
   passthru.updateScript = pkgs.nix-update-script {
@@ -34,8 +34,8 @@ stdenv.mkDerivation rec {
   };
 
   meta = {
-    description = "macOS menu bar application that displays the CPU speed limit due to thermal issues";
-    homepage = "https://xs-labs.com/en/apps/hot/overview/";
+    description = "Prevents your Mac from going to sleep";
+    homepage = "https://keepingyouawake.app/";
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
     platforms = lib.platforms.darwin;
   };

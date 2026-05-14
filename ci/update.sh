@@ -1,7 +1,17 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p gh yq jq curl nix
+#!nix-shell -i bash -p nix-update
 # shellcheck shell=bash
 
-echo "Starting Update"
+echo "Starting package updates with nix-update"
 
-find ./packages -type f -name "update.sh" -exec {} \;
+# Find all package directories and update them
+# Directory names match attribute names for consistency
+for pkg_dir in ./packages/*/; do
+  pkg=$(basename "$pkg_dir")
+  if [[ -d "$pkg_dir" ]]; then
+    echo "Updating $pkg..."
+    nix-update --flake --use-update-script "$pkg" || echo "Warning: Failed to update $pkg"
+  fi
+done
+
+echo "Update complete"
