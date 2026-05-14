@@ -6,6 +6,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    nix-update.url = "github:Mic92/nix-update";
   };
 
   outputs =
@@ -34,9 +35,15 @@
         "aarch64-linux"
       ];
       perSystem =
-        { pkgs, ... }:
         {
-          devshells.default = { };
+          pkgs,
+          inputs',
+          ...
+        }:
+        {
+          devshells.default = {
+            packages = [ inputs'.nix-update.packages.default ];
+          };
           treefmt = {
             projectRootFile = "flake.nix";
             programs.nixfmt.enable = true;

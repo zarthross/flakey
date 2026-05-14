@@ -1,10 +1,17 @@
-{ pkgs, stdenv }:
+{ pkgs, stdenv, lib }:
+
 let
-  sources = builtins.fromJSON (builtins.readFile ./sources.json);
+  packageName = "omniwm";
 in
 stdenv.mkDerivation rec {
-  inherit (sources) version;
   pname = "OmniWM";
+  version = "0.4.8.1";
+
+  src = pkgs.fetchurl {
+    url = "https://github.com/BarutSRB/OmniWM/releases/download/v${version}/OmniWM-v${version}.zip";
+    hash = "sha256-f2ByexWwgc9qzUC0wbXf0nDIMl4w1xtuUfXpmzA/CFc=";
+  };
+
   buildInputs = [
     pkgs.undmg
     pkgs.unzip
@@ -18,12 +25,18 @@ stdenv.mkDerivation rec {
     mkdir -p $out/Applications
     cp -r OmniWM.app "$out/Applications/"
   '';
-  src = pkgs.fetchurl {
-    name = "OmniWM-${version}.zip";
-    inherit (sources) url sha256;
+
+  passthru.updateScript = pkgs.nix-update-script {
+    extraArgs = [
+      "--flake"
+      packageName
+    ];
   };
+
   meta = {
-    description = "macOS tiling window manager inspired by Niri and Hyprland, developer signed and notarized.";
+    description = "macOS tiling window manager inspired by Niri and Hyprland, developer signed and notarized";
     homepage = "https://barutsrb.github.io/OmniWM/";
+    sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
+    platforms = lib.platforms.darwin;
   };
 }

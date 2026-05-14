@@ -1,11 +1,16 @@
-{ pkgs, stdenv }:
+{ pkgs, stdenv, lib }:
 
 let
-  sources = builtins.fromJSON (builtins.readFile ./sources.json);
+  packageName = "rectangle";
 in
 stdenv.mkDerivation rec {
-  inherit (sources) version;
   pname = "Rectangle";
+  version = "0.95";
+
+  src = pkgs.fetchurl {
+    url = "https://github.com/rxhanson/Rectangle/releases/download/v${version}/Rectangle${version}.dmg";
+    hash = "sha256-fykSgXAGxouBHAlcW4rcKthApQVkYfRiuw5GnI6hIAA=";
+  };
 
   buildInputs = [ pkgs.undmg ];
   sourceRoot = ".";
@@ -18,13 +23,17 @@ stdenv.mkDerivation rec {
     cp -r Rectangle*.app "$out/Applications/"
   '';
 
-  src = pkgs.fetchurl {
-    name = "Rectangle-v${version}.dmg";
-    inherit (sources) url sha256;
+  passthru.updateScript = pkgs.nix-update-script {
+    extraArgs = [
+      "--flake"
+      packageName
+    ];
   };
 
   meta = {
     description = "Move and resize windows on macOS with keyboard shortcuts and snap areas";
     homepage = "https://rectangleapp.com/";
+    sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
+    platforms = lib.platforms.darwin;
   };
 }

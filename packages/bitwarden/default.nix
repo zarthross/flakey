@@ -1,11 +1,20 @@
-{ pkgs, stdenv }:
+{
+  pkgs,
+  stdenv,
+  lib,
+}:
 
 let
-  sources = builtins.fromJSON (builtins.readFile ./sources.json);
+  packageName = "bitwarden";
 in
 stdenv.mkDerivation rec {
-  inherit (sources) version;
   pname = "Bitwarden";
+  version = "2026.3.1";
+
+  src = pkgs.fetchurl {
+    url = "https://github.com/bitwarden/clients/releases/download/desktop-v${version}/Bitwarden-${version}-universal.dmg";
+    hash = "sha256-s9PROdZ8YW7G5IRFSHJpOZHim+tC3E/EPAwMKCYt6P8=";
+  };
 
   buildInputs = [ pkgs._7zz ];
   sourceRoot = ".";
@@ -23,13 +32,19 @@ stdenv.mkDerivation rec {
     7zz x -snld $src
   '';
 
-  src = pkgs.fetchurl {
-    name = "Bitwarden-${version}.dmg";
-    inherit (sources) url hash;
+  passthru.updateScript = pkgs.nix-update-script {
+    extraArgs = [
+      "--flake"
+      packageName
+      "--version-regex"
+      "^desktop-v(.*)$"
+    ];
   };
 
   meta = {
-    description = "Open source password management solutions for individuals, teams, and business organizations.";
+    description = "Open source password management solutions for individuals, teams, and business organizations";
     homepage = "https://bitwarden.com/";
+    sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
+    platforms = lib.platforms.darwin;
   };
 }
