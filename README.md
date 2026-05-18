@@ -1,5 +1,7 @@
 # Flakey
 
+[![CI](https://github.com/zarthross/flakey/actions/workflows/ci.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/ci.yaml)
+
 ## Provides
 
 `nix flake show`
