@@ -7,13 +7,13 @@ set -euo pipefail
 echo "Starting package updates"
 
 # Auto-detect all packages from the flake across all systems
-# Get unique package names from all systems
+# Get unique package names from all systems, excluding internal packages
 packages=$(nix flake show --json 2>/dev/null | jq -r '
   .packages 
   | to_entries[] 
   | .value 
   | keys[] 
-' | sort -u)
+' | grep -v '^render-workflows$' | sort -u)
 
 if [[ -z $packages ]]; then
   echo "Error: Could not detect packages from flake"
