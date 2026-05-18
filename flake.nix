@@ -7,6 +7,11 @@
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     nix-update.url = "github:Mic92/nix-update";
+    actions-nix = {
+      url = "github:nialov/actions.nix";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +26,8 @@
         ./packages
         inputs.devshell.flakeModule
         inputs.treefmt-nix.flakeModule
+        inputs.actions-nix.flakeModules.default
+        ./actions
       ];
       flake = rec {
         nixosModules = import ./nixos-modules;
@@ -38,11 +45,19 @@
         {
           pkgs,
           inputs',
+          config,
+          self',
           ...
         }:
         {
           devshells.default = {
             packages = [ inputs'.nix-update.packages.default ];
+            commands = [
+              {
+                package = self'.packages.render-workflows;
+                help = "Generates .github/workflow files for CI";
+              }
+            ];
           };
           treefmt = {
             projectRootFile = "flake.nix";
