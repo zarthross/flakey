@@ -41,15 +41,20 @@ in
     pre-commit.enable = true;
 
     workflows = {
-      # CI workflow - runs on all PRs and pushes
+      # CI workflow - runs on all PRs
       ".github/workflows/ci.yaml" = {
         name = "CI";
-        on = {
-          pull_request = { };
-          push.branches = [ "main" ];
-        };
+        on.pull_request = { };
         jobs.check = {
-          runs-on = "macos-latest";
+          runs-on = "\${{ matrix.os }}";
+          strategy = {
+            matrix = {
+              os = [
+                "macos-latest"
+                "ubuntu-latest"
+              ];
+            };
+          };
           steps = [
             checkout
             installNixAction
@@ -77,6 +82,7 @@ in
             checkout
             installNixAction
             runUpdateScript
+            runFlakeCheck
             commitChanges
           ];
         };

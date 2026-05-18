@@ -17,6 +17,8 @@ jobs:
       run: |-
         chmod +x ./ci/update.sh
         ./ci/update.sh
+    - name: Run nix flake check
+      run: nix flake check
     - uses: EndBug/add-and-commit@v9
       with:
         add: packages/**/default.nix
