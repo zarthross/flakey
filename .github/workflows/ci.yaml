@@ -3,6 +3,9 @@
 # (typically under flake.actions-nix.workflows.".github/workflows/ci.yaml") and run:
 #   nix run .#render-workflows
 # Or commit to trigger the pre-commit hook if enabled.
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   check:
     runs-on: ${{ matrix.os }}
@@ -21,3 +24,4 @@ jobs:
 name: CI
 'on':
   pull_request: {}
+  workflow_dispatch: {}

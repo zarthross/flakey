@@ -44,7 +44,14 @@ in
       # CI workflow - runs on all PRs
       ".github/workflows/ci.yaml" = {
         name = "CI";
-        on.pull_request = { };
+        on = {
+          pull_request = { };
+          workflow_dispatch = { };
+        };
+        concurrency = {
+          group = "\${{ github.workflow }}-\${{ github.ref }}";
+          cancel-in-progress = true;
+        };
         jobs.check = {
           runs-on = "\${{ matrix.os }}";
           strategy = {
