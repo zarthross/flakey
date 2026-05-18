@@ -15,7 +15,7 @@ packages=$(nix flake show --json 2>/dev/null | jq -r '
   | keys[] 
 ' | sort -u)
 
-if [[ -z "$packages" ]]; then
+if [[ -z $packages ]]; then
   echo "Error: Could not detect packages from flake"
   exit 1
 fi
@@ -37,7 +37,7 @@ echo "Update complete"
 # Report failures with GitHub Actions annotations if in CI
 if [[ ${#failed_packages[@]} -gt 0 ]]; then
   echo ""
-  if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+  if [[ -n ${GITHUB_ACTIONS:-} ]]; then
     # GitHub Actions annotation format for better visibility
     echo "::error title=Package Update Failures::Failed to update ${#failed_packages[@]} package(s): ${failed_packages[*]}"
     echo ""
