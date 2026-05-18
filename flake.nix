@@ -7,10 +7,15 @@
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     nix-update.url = "github:Mic92/nix-update";
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     actions-nix = {
       url = "github:nialov/actions.nix";
       inputs.flake-parts.follows = "flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.git-hooks.follows = "git-hooks-nix";
     };
   };
 
@@ -26,6 +31,7 @@
         ./packages
         inputs.devshell.flakeModule
         inputs.treefmt-nix.flakeModule
+        inputs.git-hooks-nix.flakeModule
         inputs.actions-nix.flakeModules.default
         ./actions
       ];
@@ -53,13 +59,18 @@
           devshells.default = {
             packages = [ inputs'.nix-update.packages.default ];
             commands = [
+              { package = config.treefmt.build.wrapper; }
+              { package = config.pre-commit.settings.package; }
               {
                 package = self'.packages.render-workflows;
                 help = "Generates .github/workflow files for CI";
               }
             ];
+            devshell.startup.pre-commit.text = config.pre-commit.installationScript;
           };
+
           treefmt = {
+            flakeCheck = true;
             projectRootFile = "flake.nix";
             programs.nixfmt.enable = true;
             programs.shfmt.enable = true;
@@ -68,6 +79,14 @@
               ".github/**"
               "README.md"
             ];
+          };
+
+          pre-commit = {
+            check.enable = true;
+            settings.hooks = {
+              # Format code with treefmt
+              treefmt.enable = true;
+            };
           };
         };
     };

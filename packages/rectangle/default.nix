@@ -1,4 +1,8 @@
-{ pkgs, stdenv, lib }:
+{
+  pkgs,
+  stdenv,
+  lib,
+}:
 
 let
   packageName = "rectangle";
