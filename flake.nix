@@ -83,9 +83,13 @@
 
           pre-commit = {
             check.enable = true;
-            settings.hooks = {
-              # Format code with treefmt
-              treefmt.enable = true;
+            settings = {
+              # Use prek (Rust) instead of pre-commit (Python)
+              package = pkgs.prek;
+              hooks = {
+                # Format code with treefmt
+                treefmt.enable = true;
+              };
             };
           };
         };
