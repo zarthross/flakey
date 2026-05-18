@@ -83,6 +83,10 @@ in
           ];
           push.branches = [ "main" ];
         };
+        concurrency = {
+          group = "update-sources";
+          cancel-in-progress = true;
+        };
         jobs.update-sources = {
           runs-on = "macos-latest";
           steps = [
