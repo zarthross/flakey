@@ -29,6 +29,11 @@ let
       add = "packages/**/default.nix";
     };
   };
+
+  runFlakeCheck = {
+    name = "Run nix flake check";
+    run = "nix flake check";
+  };
 in
 {
   flake.actions-nix = {
@@ -36,6 +41,23 @@ in
     pre-commit.enable = true;
 
     workflows = {
+      # CI workflow - runs on all PRs and pushes
+      ".github/workflows/ci.yaml" = {
+        name = "CI";
+        on = {
+          pull_request = { };
+          push.branches = [ "main" ];
+        };
+        jobs.check = {
+          runs-on = "macos-latest";
+          steps = [
+            checkout
+            installNixAction
+            runFlakeCheck
+          ];
+        };
+      };
+
       # Define the update-sources workflow
       ".github/workflows/update-sources.yaml" = {
         name = "update-sources";
