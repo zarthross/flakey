@@ -10,20 +10,23 @@
 ├───nixosModules
 │   ├───default: NixOS module
 │   ├───allow-unfree-predicates: NixOS module
-│   └───nix-change-report: NixOS module
+│   ├───nix-change-report: NixOS module
+│   └───nixos-change-report: NixOS module
 ├───overlays
 │   └───default: Nixpkgs overlay
 └───packages
     ├───aarch64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2024.4.1'
-    │   ├───hot: package 'Hot-1.9.1'
-    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
-    │   └───rectangle: package 'Rectangle-0.77'
+    │   ├───bitwarden: package 'Bitwarden-2026.3.1'
+    │   ├───hot: package 'Hot-1.9.4'
+    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
+    │   ├───omniwm: package 'OmniWM-0.4.8.1'
+    │   └───rectangle: package 'Rectangle-0.95'
     └───x86_64-darwin
-        ├───bitwarden: package 'Bitwarden-2024.4.1'
-        ├───hot: package 'Hot-1.9.1'
-        ├───keepingYouAwake: package 'KeepingYouAwake-1.6.5'
-        └───rectangle: package 'Rectangle-0.77'
+        ├───bitwarden: package 'Bitwarden-2026.3.1'
+        ├───hot: package 'Hot-1.9.4'
+        ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
+        ├───omniwm: package 'OmniWM-0.4.8.1'
+        └───rectangle: package 'Rectangle-0.95'
 ```
 
 ## nixosModules 
@@ -112,6 +115,10 @@ Darwin package for [Bitwarden](bitwarden.com/)
 ### Rectangle
 
 [Rectangle](https://rectangleapp.com/): Move and resize windows in macOS using keyboard shortcuts or snap areas.
+
+### OmniWM
+
+[OmniWM](https://barutsrb.github.io/OmniWM/): macOS tiling window manager inspired by Niri and Hyprland, developer signed and notarized.
 
 ### Hot
 
