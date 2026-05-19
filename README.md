@@ -1,6 +1,7 @@
 # Flakey
 
 [![CI](https://github.com/zarthross/flakey/actions/workflows/ci.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/ci.yaml)
+[![Update Sources](https://github.com/zarthross/flakey/actions/workflows/update-sources.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/update-sources.yaml)
 
 ## Provides
 
