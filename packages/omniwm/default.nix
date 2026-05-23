@@ -9,11 +9,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "OmniWM";
-  version = "0.4.9.2";
+  version = "0.4.9.4";
 
   src = pkgs.fetchurl {
     url = "https://github.com/BarutSRB/OmniWM/releases/download/v${version}/OmniWM-v${version}.zip";
-    hash = "sha256-1w4tGVtJbWM6SegJVbV/7bQmF21IhKJLzSyCXT1SOJ8=";
+    hash = "sha256-4rXUQUCks4DgA9TwxNEioLAaMNTjxr4ZVvpaK1o4Ag8=";
   };
 
   buildInputs = [
