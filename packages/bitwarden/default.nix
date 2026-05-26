@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/Applications
-    cp -r Bitwarden*.app "$out/Applications/"
+    cp -r "Bitwarden ${version}-universal/Bitwarden.app" "$out/Applications/"
   '';
 
   unpackPhase = ''
