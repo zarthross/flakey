@@ -35,12 +35,16 @@
         inputs.actions-nix.flakeModules.default
         ./actions
       ];
-      flake = rec {
-        nixosModules = import ./nixos-modules;
-        homeModules = import ./home-modules;
-        homeManagerModules = builtins.trace "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.[" homeModules;
-        darwinModules = import ./darwin-modules;
-      };
+      flake =
+        let
+          homeModules = import ./home-modules;
+        in
+        {
+          nixosModules = import ./nixos-modules;
+          homeModules = homeModules;
+          homeManagerModules = builtins.trace "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.[" homeModules;
+          darwinModules = homeModules;
+        };
       systems = [
         "x86_64-darwin"
         "aarch64-darwin"
