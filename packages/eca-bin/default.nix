@@ -31,7 +31,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "eca-bin";
-  version = "0.136.0";
+  version = "0.136.1";
 
   src = fetchzip {
     url = "https://github.com/editor-code-assistant/eca/releases/download/${version}/${platform.url}";
