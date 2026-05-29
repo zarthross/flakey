@@ -134,10 +134,28 @@ in
             needs = [ "update-x86_64-linux" ];
             runs-on = "macos-14";
             steps = [
-              (checkoutBranch "bot/update-packages")
+              # Checkout bot branch if exists, otherwise create from main
+              {
+                uses = "actions/checkout@v4";
+                "with" = {
+                  ref = "bot/update-packages";
+                  fetch-depth = 0;
+                };
+                continue-on-error = true;
+                id = "checkout-bot-branch";
+              }
+              # Fallback: checkout main if bot branch doesn't exist
+              {
+                "if" = "steps.checkout-bot-branch.outcome == 'failure'";
+                uses = "actions/checkout@v4";
+                "with" = {
+                  ref = "main";
+                  fetch-depth = 0;
+                };
+              }
               installNixAction
               runUpdateScript
-              (commitAndPush {
+              (commitAndForcePush {
                 message = "Update packages for aarch64-darwin";
                 branch = "bot/update-packages";
               })
