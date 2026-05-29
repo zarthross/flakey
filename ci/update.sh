@@ -6,19 +6,22 @@ set -euo pipefail
 
 echo "Starting package updates"
 
-# Auto-detect all packages from the flake across all systems
-# Get unique package names from all systems, excluding internal packages
-packages=$(nix flake show --json 2>/dev/null | jq -r '
-  .packages 
-  | to_entries[] 
-  | .value 
+# Detect current system
+current_system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
+echo "Current system: $current_system"
+
+# Get packages available on current system only
+packages=$(nix flake show --json 2>/dev/null | jq -r --arg system "$current_system" '
+  .packages[$system] 
   | keys[] 
 ' | grep -v '^render-workflows$' | sort -u)
 
 if [[ -z $packages ]]; then
-  echo "Error: Could not detect packages from flake"
-  exit 1
+  echo "No packages found for system $current_system"
+  exit 0
 fi
+
+echo "Packages to update: $(echo "$packages" | wc -l)"
 
 # Track failures
 failed_packages=()
