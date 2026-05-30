@@ -9,11 +9,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "Bitwarden";
-  version = "2026.4.0";
+  version = "2026.5.0";
 
   src = pkgs.fetchurl {
     url = "https://github.com/bitwarden/clients/releases/download/desktop-v${version}/Bitwarden-${version}-universal.dmg";
-    hash = "sha256-Z86y+yzYj3YzpQcqRW/wsoTqtpICGCBgZ8tl2URD0eE=";
+    hash = "sha256-THP1ro+VmWQ57JbIy1wS7vAdZnz4v746VKYrJrduZOM=";
   };
 
   buildInputs = [ pkgs._7zz ];
