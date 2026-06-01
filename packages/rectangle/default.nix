@@ -9,11 +9,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "Rectangle";
-  version = "0.95";
+  version = "0.96";
 
   src = pkgs.fetchurl {
     url = "https://github.com/rxhanson/Rectangle/releases/download/v${version}/Rectangle${version}.dmg";
-    hash = "sha256-fykSgXAGxouBHAlcW4rcKthApQVkYfRiuw5GnI6hIAA=";
+    hash = "sha256-FqNcIuRUH2J3UHFWRylSxF4r4pl20GLPJBdmkT0CcXk=";
   };
 
   buildInputs = [ pkgs.undmg ];
