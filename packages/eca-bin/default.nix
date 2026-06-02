@@ -1,43 +1,30 @@
 {
   lib,
   stdenv,
-  fetchzip,
+  fetchurl,
+  unzip,
 }:
 
 let
-  # Map Nix system to ECA release platform
-  platformInfo = {
-    "x86_64-linux" = {
-      url = "eca-native-static-linux-amd64.zip";
-      sha256 = "";
-    };
-    "aarch64-linux" = {
-      url = "eca-native-linux-aarch64.zip";
-      sha256 = "";
-    };
-    "x86_64-darwin" = {
-      url = "eca-native-macos-amd64.zip";
-      sha256 = "";
-    };
-    "aarch64-darwin" = {
-      url = "eca-native-macos-aarch64.zip";
-      sha256 = "sha256-F5HJp4pKFUmgamv4uynpUgx90FaMnid8fuaP30U/uio=";
-    };
-  };
-
+  sources = lib.importJSON ./sources.json;
   platform =
-    platformInfo.${stdenv.hostPlatform.system}
+    sources.${stdenv.hostPlatform.system}
       or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in
 stdenv.mkDerivation rec {
+  inherit (sources) version;
   pname = "eca-bin";
-  version = "0.136.0";
 
-  src = fetchzip {
-    url = "https://github.com/editor-code-assistant/eca/releases/download/${version}/${platform.url}";
-    sha256 = platform.sha256;
-    stripRoot = false;
+  src = fetchurl {
+    url = platform.url;
+    hash = platform.hash;
   };
+
+  nativeBuildInputs = [ unzip ];
+
+  unpackPhase = ''
+    unzip $src
+  '';
 
   installPhase = ''
     runHook preInstall
