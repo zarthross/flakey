@@ -5,15 +5,14 @@
 }:
 
 let
-  packageName = "keepingYouAwake";
+  sources = lib.importJSON ./sources.json;
 in
 stdenv.mkDerivation rec {
+  inherit (sources) version;
   pname = "KeepingYouAwake";
-  version = "1.6.8";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/newmarcel/KeepingYouAwake/releases/download/${version}/KeepingYouAwake-${version}.zip";
-    hash = "sha256-gAGhSbRJDACP2sGYmLzpkC1RbEqmQSp+sPmjdEOxXGs=";
+    inherit (sources) url sha256;
   };
 
   buildInputs = [
@@ -29,13 +28,6 @@ stdenv.mkDerivation rec {
     mkdir -p $out/Applications
     cp -r KeepingYouAwake.app "$out/Applications/"
   '';
-
-  passthru.updateScript = pkgs.nix-update-script {
-    extraArgs = [
-      "--flake"
-      packageName
-    ];
-  };
 
   meta = {
     description = "Prevents your Mac from going to sleep";

@@ -18,7 +18,10 @@
     }:
     {
       overlayAttrs = config.packages;
-      packages =
+      packages = {
+        eca-bin = pkgs.callPackage ./eca-bin { };
+      }
+      // (
         if pkgs.stdenv.isDarwin then
           {
             bitwarden = pkgs.callPackage ./bitwarden { };
@@ -28,7 +31,8 @@
             rectangle = pkgs.callPackage ./rectangle { };
           }
         else
-          { };
+          { }
+      );
 
       # Add all packages as checks so `nix flake check` builds them
       checks = lib.mapAttrs' (name: pkg: lib.nameValuePair "package-${name}" pkg) config.packages;

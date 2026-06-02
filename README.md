@@ -105,7 +105,45 @@ Automatically adds a change report using `nvd` to each darwin-nix activation.
 
 A few OSX Apps that I use that aren't in nixpkgs, so I've add them to this repo.
 
-These are auto-updated nightly using a github actions.
+These are auto-updated nightly using GitHub Actions.
+
+### Package Management
+
+Packages use the `sources.json` pattern:
+- Each package has `sources.json` with `version`, `url`, and `hash`
+- `default.nix` uses `lib.importJSON ./sources.json` (pure, flake-friendly)
+- Multi-platform packages (like `eca-bin`) key by system: `sources.${stdenv.hostPlatform.system}`
+
+### Adding a New Package
+
+1. Create `packages/NAME/default.nix`:
+   ```nix
+   { pkgs, stdenv, lib }:
+   let sources = lib.importJSON ./sources.json;
+   in stdenv.mkDerivation {
+     inherit (sources) version;
+     pname = "NAME";
+     src = pkgs.fetchurl { inherit (sources) url sha256; };
+     # ... build instructions
+   }
+   ```
+
+2. Create `packages/NAME/update.sh`:
+   ```bash
+   #!/usr/bin/env nix-shell
+   #!nix-shell -i bash -p jq curl gh
+   source "$(dirname "$0")/../../ci/lib/github-release-update.sh"
+   update_github_release OWNER REPO 'ASSET_PATTERN' | jq . > "$(dirname "$0")/sources.json"
+   ```
+
+3. Run `./ci/update.sh` to generate initial `sources.json`
+
+### Updating Packages
+
+Run `./ci/update.sh` to update all packages. This:
+- Fetches latest releases from GitHub
+- Downloads and hashes artifacts
+- Updates `sources.json` files
 
 ### Bitwarden
 
