@@ -5,15 +5,15 @@
 }:
 
 let
-  packageName = "hot";
+  sources = lib.importJSON ./sources.json;
 in
 stdenv.mkDerivation rec {
+  inherit (sources) version;
   pname = "Hot";
-  version = "1.9.4";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/macmade/Hot/releases/download/${version}/Hot.zip";
-    hash = "sha256-5PbM92Bmc+5hGHC/sdTMi+hqUIBY24+btc9B6ZftYco=";
+    name = "Hot.app.zip";
+    inherit (sources) url sha256;
   };
 
   buildInputs = [
@@ -29,13 +29,6 @@ stdenv.mkDerivation rec {
     mkdir -p $out/Applications
     cp -r Hot.app "$out/Applications/"
   '';
-
-  passthru.updateScript = pkgs.nix-update-script {
-    extraArgs = [
-      "--flake"
-      packageName
-    ];
-  };
 
   meta = {
     description = "macOS menu bar application that displays the CPU speed limit due to thermal issues";

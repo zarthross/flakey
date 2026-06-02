@@ -5,6 +5,15 @@ let
     uses = "actions/checkout@v4";
   };
 
+  # Checkout specific branch
+  checkoutBranch = branch: {
+    uses = "actions/checkout@v4";
+    "with" = {
+      ref = branch;
+      fetch-depth = 0;
+    };
+  };
+
   installNixAction = {
     uses = "cachix/install-nix-action@v30";
     "with" = {
@@ -26,7 +35,7 @@ let
     "with" = {
       default_author = "github_actions";
       message = "Update package versions";
-      add = "packages/**/default.nix";
+      add = "packages/**/sources.json";
     };
   };
 
@@ -88,7 +97,7 @@ in
           cancel-in-progress = true;
         };
         jobs.update-sources = {
-          runs-on = "macos-latest";
+          runs-on = "ubuntu-latest";
           steps = [
             checkout
             installNixAction
