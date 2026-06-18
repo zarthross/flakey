@@ -1,19 +1,19 @@
 {
-  "version": "0.140.1",
+  "version": "0.142.0",
   "aarch64-linux": {
-    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.140.1/eca-native-linux-aarch64.zip",
-    "hash": "sha256-P0oCdNA1gq5v6fDz00GD0R72AX6dHaO0atAgQjWImzg="
+    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.142.0/eca-native-linux-aarch64.zip",
+    "hash": "sha256-1dWba/7xQZ9dKNMAOI3Y6WIsa1ZbM7U1/0uyKHE1H4s="
   },
   "x86_64-linux": {
-    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.140.1/eca-native-static-linux-amd64.zip",
-    "hash": "sha256-rYNPm0dswnyG1anOwEtp3gkQephaTw4Vi9AYhuNaJ8U="
+    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.142.0/eca-native-static-linux-amd64.zip",
+    "hash": "sha256-0Dd1ZKnWWWPDDR5WXZzi15JiZtDIeuw7ifESDaBaWoI="
   },
   "x86_64-darwin": {
-    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.140.1/eca-native-macos-amd64.zip",
-    "hash": "sha256-LePyx2Q1RZ3WUb2bnkkmzF3tlD6DHeyfMkUJD6wBT4k="
+    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.142.0/eca-native-macos-amd64.zip",
+    "hash": "sha256-7xC/kXtDWJla57magdJV0wYSr+H354DXr49gTvdOb+E="
   },
   "aarch64-darwin": {
-    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.140.1/eca-native-macos-aarch64.zip",
-    "hash": "sha256-AMU1bZucTBUH/Jq39oJsPAgqHPl2V+gogpEUtxDapAQ="
+    "url": "https://github.com/editor-code-assistant/eca/releases/download/0.142.0/eca-native-macos-aarch64.zip",
+    "hash": "sha256-JsqLth07Ta5Uum7zCWc5Ri8fuxiQ5bohZbUfxAfKPT8="
   }
 }
