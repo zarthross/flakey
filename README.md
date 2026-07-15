@@ -19,17 +19,31 @@
 │   └───default: Nixpkgs overlay
 └───packages
     ├───aarch64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2026.3.1'
+    │   ├───bitwarden: package 'Bitwarden-2026.5.0'
+    │   ├───drift-detector: package 'drift-detector-v0.0.7'
+    │   ├───eca-bin: package 'eca-bin-0.147.0'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-    │   ├───omniwm: package 'OmniWM-0.4.8.1'
-    │   └───rectangle: package 'Rectangle-0.95'
-    └───x86_64-darwin
-        ├───bitwarden: package 'Bitwarden-2026.3.1'
-        ├───hot: package 'Hot-1.9.4'
-        ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-        ├───omniwm: package 'OmniWM-0.4.8.1'
-        └───rectangle: package 'Rectangle-0.95'
+    │   ├───omniwm: package 'OmniWM-0.4.9.6'
+    │   ├───rectangle: package 'Rectangle-0.96'
+    │   └───render-workflows: package 'render-workflows'
+    ├───aarch64-linux
+    │   ├───drift-detector: package 'drift-detector-v0.0.7'
+    │   ├───eca-bin: package 'eca-bin-0.147.0'
+    │   └───render-workflows: package 'render-workflows'
+    ├───x86_64-darwin
+    │   ├───bitwarden: package 'Bitwarden-2026.5.0'
+    │   ├───drift-detector: package 'drift-detector-v0.0.7'
+    │   ├───eca-bin: package 'eca-bin-0.147.0'
+    │   ├───hot: package 'Hot-1.9.4'
+    │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
+    │   ├───omniwm: package 'OmniWM-0.4.9.6'
+    │   ├───rectangle: package 'Rectangle-0.96'
+    │   └───render-workflows: package 'render-workflows'
+    └───x86_64-linux
+        ├───drift-detector: package 'drift-detector-v0.0.7'
+        ├───eca-bin: package 'eca-bin-0.147.0'
+        └───render-workflows: package 'render-workflows'
 ```
 
 ## nixosModules 
@@ -164,6 +178,10 @@ Darwin package for [Bitwarden](bitwarden.com/)
 ### Hot
 
 [Hot](https://xs-labs.com/en/apps/hot/overview/)  is macOS menu bar application that displays the CPU speed limit due to thermal issues. 
+
+### Drift Detector
+
+[Drift Detector](https://github.com/yellowstonesoftware/drift-detector) is a Swift CLI that inspects Kubernetes deployments and compares them against the latest GitHub release tags to identify version drift. Available for `x86_64-linux` and `aarch64-darwin` (only platforms published upstream).
 
 ## FAQ
 
