@@ -44,7 +44,7 @@
             localFlake = self;
           };
           homeManagerModules =
-            builtins.trace "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.["
+            builtins.trace "[1;31mwarning: homeManagerModules is Deprecated, please use homeModules.["
               (
                 import ./home-modules {
                   inherit lib;
