@@ -2,6 +2,7 @@
 #
 # Manages ECA configuration via home-manager
 # Supports global (~/.config/eca/config.json) and local (.eca/config.json) configs
+{ localFlake }:
 {
   config,
   lib,
@@ -11,6 +12,7 @@
 with lib;
 let
   cfg = config.dgibs.programs.eca;
+  packages' = localFlake.packages.${pkgs.stdenv.hostPlatform.system};
 
   # JSON schema URL
   schemaUrl = "https://eca.dev/config.json";
@@ -51,8 +53,9 @@ in
 
     package = mkOption {
       type = types.nullOr types.package;
-      default = null;
-      description = "ECA package to install";
+      default = packages'.eca-bin;
+      defaultText = literalExpression "localFlake.packages.\${pkgs.stdenv.hostPlatform.system}.eca-bin";
+      description = "ECA package to install. Set to `null` to manage the binary yourself.";
     };
 
     settings = mkOption {
