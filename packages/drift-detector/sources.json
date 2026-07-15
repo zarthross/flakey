@@ -1,0 +1,11 @@
+{
+  "version": "v0.0.7",
+  "x86_64-linux": {
+    "url": "https://github.com/yellowstonesoftware/drift-detector/releases/download/v0.0.7/drift_detector_linux-v0.0.7.zip",
+    "hash": "sha256-EPCHTaEexyO2u0M7zsbJ9aGbJMFVgpdJqnFlGrjSix0="
+  },
+  "aarch64-darwin": {
+    "url": "https://github.com/yellowstonesoftware/drift-detector/releases/download/v0.0.7/drift_detector_macos_arm64-v0.0.7.zip",
+    "hash": "sha256-FgWMtcOurmLwmZzO90e92Jdgp6G2E9cbTHHa2e5IJ4g="
+  }
+}

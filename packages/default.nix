@@ -20,6 +20,7 @@
       overlayAttrs = config.packages;
       packages = {
         eca-bin = pkgs.callPackage ./eca-bin { };
+        drift-detector = pkgs.callPackage ./drift-detector { };
       }
       // (
         if pkgs.stdenv.isDarwin then
