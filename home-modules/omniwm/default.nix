@@ -1,3 +1,4 @@
+{ localFlake }:
 {
   config,
   lib,
@@ -7,6 +8,7 @@
 
 let
   cfg = config.programs.omniwm;
+  packages' = localFlake.packages.${pkgs.stdenv.hostPlatform.system};
   tomlFormat = pkgs.formats.toml { };
   settingsFile = tomlFormat.generate "omniwm-settings.toml" cfg.settings;
 in
@@ -17,8 +19,8 @@ in
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.omniwm;
-      defaultText = lib.literalExpression "pkgs.omniwm";
+      default = packages'.omniwm;
+      defaultText = lib.literalExpression "localFlake.packages.\${pkgs.stdenv.hostPlatform.system}.omniwm";
       description = "The OmniWM package to install.";
     };
 
