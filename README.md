@@ -21,29 +21,41 @@
     ├───aarch64-darwin
     │   ├───bitwarden: package 'Bitwarden-2026.5.0'
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.147.0'
+    │   ├───eca-bin: package 'eca-bin-0.149.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
     │   ├───omniwm: package 'OmniWM-0.4.9.6'
     │   ├───rectangle: package 'Rectangle-0.96'
-    │   └───render-workflows: package 'render-workflows'
+    │   ├───render-workflows: package 'render-workflows'
+    │   ├───write-flake: package 'write-flake'
+    │   ├───write-inputs: package 'write-inputs'
+    │   └───write-lock: package 'write-lock'
     ├───aarch64-linux
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.147.0'
-    │   └───render-workflows: package 'render-workflows'
+    │   ├───eca-bin: package 'eca-bin-0.149.1'
+    │   ├───render-workflows: package 'render-workflows'
+    │   ├───write-flake: package 'write-flake'
+    │   ├───write-inputs: package 'write-inputs'
+    │   └───write-lock: package 'write-lock'
     ├───x86_64-darwin
     │   ├───bitwarden: package 'Bitwarden-2026.5.0'
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.147.0'
+    │   ├───eca-bin: package 'eca-bin-0.149.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
     │   ├───omniwm: package 'OmniWM-0.4.9.6'
     │   ├───rectangle: package 'Rectangle-0.96'
-    │   └───render-workflows: package 'render-workflows'
+    │   ├───render-workflows: package 'render-workflows'
+    │   ├───write-flake: package 'write-flake'
+    │   ├───write-inputs: package 'write-inputs'
+    │   └───write-lock: package 'write-lock'
     └───x86_64-linux
         ├───drift-detector: package 'drift-detector-v0.0.7'
-        ├───eca-bin: package 'eca-bin-0.147.0'
-        └───render-workflows: package 'render-workflows'
+        ├───eca-bin: package 'eca-bin-0.149.1'
+        ├───render-workflows: package 'render-workflows'
+        ├───write-flake: package 'write-flake'
+        ├───write-inputs: package 'write-inputs'
+        └───write-lock: package 'write-lock'
 ```
 
 ## nixosModules 
@@ -130,7 +142,8 @@ Packages use the `sources.json` pattern:
 
 ### Adding a New Package
 
-1. Create `packages/NAME/default.nix`:
+1. Create `modules/NAME/NAME.pkg.nix` (plain `callPackage` derivation, excluded from
+   import-tree auto-import):
    ```nix
    { pkgs, stdenv, lib }:
    let sources = lib.importJSON ./sources.json;
@@ -142,19 +155,23 @@ Packages use the `sources.json` pattern:
    }
    ```
 
-2. Create `packages/NAME/update.sh`:
+2. Create `modules/NAME/NAME.nix` registering the package into
+   `flake.modules.<class>.<name>` (see `modules/bitwarden/bitwarden.nix` for a
+   minimal example).
+
+3. Create `modules/NAME/update.sh`:
    ```bash
    #!/usr/bin/env nix-shell
    #!nix-shell -i bash -p jq curl gh
-   source "$(dirname "$0")/../../ci/lib/github-release-update.sh"
+   source "$(dirname "$0")/../repository/ci/lib/github-release-update.sh"
    update_github_release OWNER REPO 'ASSET_PATTERN' | jq . > "$(dirname "$0")/sources.json"
    ```
 
-3. Run `./ci/update.sh` to generate initial `sources.json`
+4. Run `./modules/repository/ci/run-update-all-sources.sh` to generate initial `sources.json`
 
 ### Updating Packages
 
-Run `./ci/update.sh` to update all packages. This:
+Run `./modules/repository/ci/run-update-all-sources.sh` to update all packages. This:
 - Fetches latest releases from GitHub
 - Downloads and hashes artifacts
 - Updates `sources.json` files
