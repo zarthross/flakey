@@ -29,6 +29,11 @@
             help = "Regenerate flake.nix from modules/**/flake-file.inputs declarations";
             command = "exec nix run .#write-flake -- \"$@\"";
           }
+          {
+            name = "update-sources";
+            help = "Update all package sources.json files (fetch, hash, write)";
+            command = "exec \"$PRJ_ROOT/modules/repository/ci/run-update-all-sources.sh\" \"$@\"";
+          }
         ];
         devshell.startup.pre-commit.text = config.pre-commit.installationScript;
       };
