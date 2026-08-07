@@ -8,10 +8,16 @@
   };
 
   perSystem =
-    { config, self', ... }:
+    {
+      config,
+      self',
+      pkgs,
+      ...
+    }:
     {
       devshells.default = {
         commands = [
+          { package = pkgs.deadnix; }
           { package = config.treefmt.build.wrapper; }
           { package = config.pre-commit.settings.package; }
           {

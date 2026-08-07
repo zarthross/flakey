@@ -37,6 +37,13 @@
           package = pkgs.prek;
           hooks = {
             treefmt.enable = true;
+            deadnix.enable = true;
+            check-merge-conflicts.enable = true;
+            check-case-conflicts.enable = true;
+            check-symlinks.enable = true;
+            end-of-file-fixer.enable = true;
+            mixed-line-endings.enable = true;
+            trim-trailing-whitespace.enable = true;
             write-flake = {
               enable = true;
               name = "write-flake";

@@ -3,8 +3,6 @@ let
   allowUnfreePredicates =
     {
       config,
-      pkgs,
-      nixpkgs,
       lib,
       ...
     }:
@@ -51,4 +49,5 @@ in
   # darwin export is tracked as a deferred follow-up.
   flake.modules.nixos.allow-unfree-predicates = allowUnfreePredicates;
   flake.modules.homeManager.allow-unfree-predicates = allowUnfreePredicates;
+  flake.modules.darwin.allow-unfree-predicates = allowUnfreePredicates;
 }

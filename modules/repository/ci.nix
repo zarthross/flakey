@@ -5,15 +5,6 @@ let
     uses = "actions/checkout@v4";
   };
 
-  # Checkout specific branch
-  checkoutBranch = branch: {
-    uses = "actions/checkout@v4";
-    "with" = {
-      ref = branch;
-      fetch-depth = 0;
-    };
-  };
-
   installNixAction = {
     uses = "cachix/install-nix-action@v30";
     "with" = {

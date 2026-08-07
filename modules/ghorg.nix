@@ -1,11 +1,9 @@
 {
   flake.modules.homeManager.ghorg =
     {
-      options,
       config,
       pkgs,
       lib,
-      stdenv,
       ...
     }:
 
@@ -343,14 +341,14 @@
                   target = "nix-community";
                   description = "Clone all nix-community repos";
                 };
-                
+
                 juhaku-utoipa = {
                   target = "juhaku";
                   cloneType = "user";
                   matchRegex = "utoipa";
                   description = "Clone utoipa repos from juhaku user";
                 };
-                
+
                 custom-command = {
                   cmd = "ghorg clone myorg --custom-flag";
                   description = "Use raw command for advanced cases";

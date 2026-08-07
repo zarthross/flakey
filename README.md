@@ -58,7 +58,7 @@
         └───write-lock: package 'write-lock'
 ```
 
-## nixosModules 
+## nixosModules
 ### allow-unfree-predicates
 
 With this modules, instead of:
@@ -67,7 +67,7 @@ With this modules, instead of:
 nixpkgs.config.allowUnfree = true;  # EVERYTHING IS ALLOWED;
 ```
 
-or 
+or
 
 ```
 # You CANNOT set this in multiple places since its a function...
@@ -80,7 +80,7 @@ nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
 now you can write:
 
 ```
-# Its just a list of package regexes you want to allow.  
+# Its just a list of package regexes you want to allow.
 # you can set this in multiple modules and it just adds more regexes!!!
 nixpkgs.allowUnfreeRegexes = ["slack" "discord"];
 ```
@@ -194,7 +194,7 @@ Darwin package for [Bitwarden](bitwarden.com/)
 
 ### Hot
 
-[Hot](https://xs-labs.com/en/apps/hot/overview/)  is macOS menu bar application that displays the CPU speed limit due to thermal issues. 
+[Hot](https://xs-labs.com/en/apps/hot/overview/)  is macOS menu bar application that displays the CPU speed limit due to thermal issues.
 
 ### Drift Detector
 
@@ -204,13 +204,13 @@ Darwin package for [Bitwarden](bitwarden.com/)
 
 ### Collect Garbage `chmod ... operation not permitted`
 
-#### Problem: 
+#### Problem:
 When running `nix-collect-garbage --delete-older-than 16`
 
-You get something like 
+You get something like
 `error: chmod '/nix/store/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-some-app-1.2.3/Applications/SomeApp.app': Operation not permitted`
 
-#### Solution: 
+#### Solution:
 
 Grant `nix` full disk access.
 
