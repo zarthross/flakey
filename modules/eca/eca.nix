@@ -39,11 +39,160 @@
         };
       };
 
-      # Add schema to final config and filter out null values recursively
+      # A `{ path = ...; }` entry matching ECA's raw rules/skills schema
+      # exactly (additionalProperties: false upstream). `path` accepts a nix
+      # path literal (coerced to its store path string), a plain string
+      # (workspace-relative, absolute, or built from a flake input, e.g.
+      # "${inputs.shared}/skills/foo"), or an already-resolved string.
+      rawPathEntryType = types.submodule {
+        options.path = mkOption {
+          type = types.coercedTo types.path toString types.str;
+          description = "Path to a file or directory (relative to workspace root or absolute; ~ supported). Nix path literals are coerced to their store path.";
+        };
+      };
+
+      # `types.either` can't discriminate between two submodules (its check
+      # only verifies "is an attrset", so a definition always merges against
+      # the first branch regardless of shape). This type dispatches on the
+      # presence of a `path` key instead, merging against `pathType` when
+      # present and `contentType` otherwise.
+      pathOrContentType =
+        pathType: contentType:
+        mkOptionType {
+          name = "pathOrContent";
+          description = "${pathType.description} or ${contentType.description}, matched on the presence of a `path` attribute";
+          check = builtins.isAttrs;
+          merge =
+            loc: defs:
+            let
+              target = if (builtins.head defs).value ? path then pathType else contentType;
+            in
+            target.merge loc defs;
+        };
+
+      # Inline skill content, following the Agent Skills spec
+      # (https://agentskills.io/specification). Rendered to a
+      # `<name>/SKILL.md` file in the nix store.
+      skillContentType = types.submodule {
+        options = {
+          name = mkOption {
+            type = types.str;
+            description = "Skill name (1-64 chars, lowercase alphanumeric and hyphens only). Used as the generated skill directory name; must be unique.";
+          };
+          description = mkOption {
+            type = types.str;
+            description = "What the skill does and when to use it (max 1024 characters per spec).";
+          };
+          content = mkOption {
+            type = types.lines;
+            description = "Markdown body of the skill (everything after the frontmatter).";
+          };
+          license = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "License name or reference to a bundled license file.";
+          };
+          compatibility = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "Environment requirements (intended product, system packages, network access, etc.).";
+          };
+          metadata = mkOption {
+            type = types.nullOr (types.attrsOf types.str);
+            default = null;
+            description = "Arbitrary string key-value metadata not defined by the Agent Skills spec.";
+          };
+          "allowed-tools" = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "Space-separated string of tools pre-approved to run for this skill (experimental).";
+          };
+        };
+      };
+
+      # Inline rule content. ECA rules have no frontmatter, just markdown.
+      # Rendered to a `<name-or-hash>.md` file in the nix store.
+      ruleContentType = types.submodule {
+        options = {
+          name = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+            description = "Optional file name (without extension) for the rendered rule file. Derived from a content hash when omitted.";
+          };
+          content = mkOption {
+            type = types.lines;
+            description = "Markdown content of the rule.";
+          };
+        };
+      };
+
+      # Renders YAML frontmatter with a fixed key order, skipping keys whose
+      # value is null. `fields` values are JSON-encoded, which is also valid
+      # YAML for the scalar/string/list values SKILL.md frontmatter uses.
+      renderFrontmatter =
+        order: fields:
+        let
+          yamlValue =
+            v:
+            if builtins.isAttrs v then
+              "\n" + lib.concatMapStringsSep "\n" (k: "  ${k}: ${builtins.toJSON v.${k}}") (builtins.attrNames v)
+            else
+              builtins.toJSON v;
+          renderKey = k: "${k}: ${yamlValue fields.${k}}";
+          presentKeys = builtins.filter (k: (fields.${k} or null) != null) order;
+        in
+        "---\n" + lib.concatMapStringsSep "\n" renderKey presentKeys + "\n---\n";
+
+      # Renders an inline skillContentType entry to a nix store directory
+      # named after the skill, containing a spec-compliant SKILL.md.
+      renderSkill =
+        skill:
+        let
+          frontmatter = renderFrontmatter [
+            "name"
+            "description"
+            "license"
+            "compatibility"
+            "metadata"
+            "allowed-tools"
+          ] skill;
+          skillMdFile = pkgs.writeText "SKILL.md" (frontmatter + "\n" + skill.content);
+        in
+        pkgs.runCommand "eca-skill-${skill.name}" { } ''
+          mkdir -p $out/${skill.name}
+          cp ${skillMdFile} $out/${skill.name}/SKILL.md
+        '';
+
+      # Renders an inline ruleContentType entry to a nix store markdown file.
+      renderRule =
+        rule:
+        let
+          fileBaseName = if rule.name != null then rule.name else builtins.hashString "sha256" rule.content;
+        in
+        pkgs.writeText "eca-rule-${fileBaseName}.md" rule.content;
+
+      # Both rules and skills entries are either `{ path = ...; }` (passed
+      # through unchanged) or inline content (rendered to a store path).
+      isPathEntry = entry: entry ? path;
+
+      resolveSkillEntry =
+        entry:
+        if isPathEntry entry then
+          { path = entry.path; }
+        else
+          { path = "${renderSkill entry}/${entry.name}"; };
+
+      resolveRuleEntry =
+        entry: if isPathEntry entry then { path = entry.path; } else { path = "${renderRule entry}"; };
+
+      # Add schema to final config, resolve inline rules/skills to plain
+      # `{ path = ...; }` entries, and filter out null values recursively.
       finalConfig = lib.filterAttrsRecursive (_: v: v != null) (
         cfg.settings
         // {
           "$schema" = schemaUrl;
+          rules = map resolveRuleEntry cfg.settings.rules;
+          skills = map resolveSkillEntry cfg.settings.skills;
         }
       );
     in
@@ -198,9 +347,16 @@
               };
 
               rules = mkOption {
-                type = types.listOf jsonFormat.type;
+                type = types.listOf (pathOrContentType rawPathEntryType ruleContentType);
                 default = [ ];
-                description = "Rule contexts for LLM prompts";
+                description = "Rule contexts for LLM prompts. Each entry is either `{ path = ...; }` pointing at an existing rule file/directory, or inline `{ content = ...; }` markdown rendered to a store file.";
+                example = literalExpression ''
+                  [
+                    { path = ./rules/my-rule.md; }
+                    { path = "${inputs.shared-agent-config}/rules/team-rule.md"; }
+                    { content = "Always write tests before implementation."; }
+                  ]
+                '';
               };
 
               commands = mkOption {
@@ -210,9 +366,20 @@
               };
 
               skills = mkOption {
-                type = types.listOf jsonFormat.type;
+                type = types.listOf (pathOrContentType rawPathEntryType skillContentType);
                 default = [ ];
-                description = "Skill files or directories";
+                description = "Skill files or directories to load. Each entry is either `{ path = ...; }` pointing at an existing skill file/directory, or an inline skill attrset (`name`, `description`, `content`, plus optional Agent Skills spec fields) rendered to a `SKILL.md` in the store.";
+                example = literalExpression ''
+                  [
+                    { path = ./skills/my-skill; }
+                    { path = "${inputs.shared-agent-config}/skills/team-skill"; }
+                    {
+                      name = "commit-messages";
+                      description = "Writes conventional-commit style messages. Use when drafting a git commit.";
+                      content = "# Commit Messages\n\nUse the conventional commits format: `type(scope): summary`.";
+                    }
+                  ]
+                '';
               };
 
               disabledTools = mkOption {
