@@ -7,7 +7,7 @@
 let
   sources = lib.importJSON ./sources.json;
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   inherit (sources) version;
   pname = "KeepingYouAwake";
 

@@ -8,7 +8,7 @@ let
   packageName = "rectangle";
   sources = lib.importJSON ./sources.json;
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "Rectangle";
   inherit (sources) version;
 

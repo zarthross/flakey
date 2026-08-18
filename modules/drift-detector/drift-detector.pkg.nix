@@ -11,7 +11,7 @@ let
     sources.${stdenv.hostPlatform.system}
       or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   inherit (sources) version;
   pname = "drift-detector";
 
