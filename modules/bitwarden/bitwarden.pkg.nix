@@ -6,14 +6,14 @@
 
 let
   packageName = "bitwarden";
+  sources = lib.importJSON ./sources.json;
 in
 stdenv.mkDerivation rec {
   pname = "Bitwarden";
-  version = "2026.5.0";
+  inherit (sources) version;
 
   src = pkgs.fetchurl {
-    url = "https://github.com/bitwarden/clients/releases/download/desktop-v${version}/Bitwarden-${version}-universal.dmg";
-    hash = "sha256-THP1ro+VmWQ57JbIy1wS7vAdZnz4v746VKYrJrduZOM=";
+    inherit (sources) url hash;
   };
 
   buildInputs = [ pkgs._7zz ];

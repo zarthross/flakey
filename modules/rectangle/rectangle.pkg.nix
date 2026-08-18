@@ -6,14 +6,14 @@
 
 let
   packageName = "rectangle";
+  sources = lib.importJSON ./sources.json;
 in
 stdenv.mkDerivation rec {
   pname = "Rectangle";
-  version = "0.96";
+  inherit (sources) version;
 
   src = pkgs.fetchurl {
-    url = "https://github.com/rxhanson/Rectangle/releases/download/v${version}/Rectangle${version}.dmg";
-    hash = "sha256-FqNcIuRUH2J3UHFWRylSxF4r4pl20GLPJBdmkT0CcXk=";
+    inherit (sources) url sha256;
   };
 
   buildInputs = [ pkgs.undmg ];
