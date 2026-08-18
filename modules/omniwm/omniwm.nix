@@ -55,13 +55,9 @@
         };
       };
 
-      config = lib.mkIf cfg.enable {
+      config = lib.mkIf (cfg.enable && pkgs.stdenv.hostPlatform.isDarwin) {
         # Disable automatic update checks by default — Nix manages the package.
-        programs.omniwm.settings = {
-          general = {
-            updateChecksEnabled = lib.mkDefault false;
-          };
-        };
+        programs.omniwm.settings.general.updateChecksEnabled = lib.mkDefault false;
 
         home.packages = [ cfg.package ];
 
