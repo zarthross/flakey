@@ -8,7 +8,7 @@ let
   packageName = "bitwarden";
   sources = lib.importJSON ./sources.json;
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "Bitwarden";
   inherit (sources) version;
 
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/Applications
-    cp -r "Bitwarden ${version}-universal/Bitwarden.app" "$out/Applications/"
+    cp -r "Bitwarden ${sources.version}-universal/Bitwarden.app" "$out/Applications/"
   '';
 
   unpackPhase = ''

@@ -8,7 +8,7 @@ let
   packageName = "omniwm";
   sources = lib.importJSON ./sources.json;
 in
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "OmniWM";
   inherit (sources) version;
 
