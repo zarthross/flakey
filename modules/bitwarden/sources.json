@@ -1,8 +1,8 @@
 {
-  "version": "2026.7.0",
-  "release_id": 358776405,
-  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2026.7.0/Bitwarden-2026.7.0-universal.dmg",
-  "asset_id": 487325739,
-  "name": "Bitwarden-2026.7.0-universal.dmg",
-  "hash": "sha512-O5CVIPjmb97Lh19OIilT/K0HT2jLb8S0ho/AsXQY8Vyhja9dUM7TaSqGSJ2w1gMA08qGnk3xXkJjooiIFDFTgw=="
+  "version": "2026.8.0",
+  "release_id": 373873712,
+  "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2026.8.0/Bitwarden-2026.8.0-universal.dmg",
+  "asset_id": 522492810,
+  "name": "Bitwarden-2026.8.0-universal.dmg",
+  "hash": "sha512-sLM3MT0CndreMyDbpChcPk3RlqYmAdeb8JukegzOw6jUu/Eu7UexalFQzK0MJAa3bMWw73K+3Q7t+DOixP6vhg=="
 }
