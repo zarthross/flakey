@@ -24,7 +24,6 @@
     │   ├───eca-bin: package 'eca-bin-0.149.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-    │   ├───omniwm: package 'OmniWM-0.4.9.6'
     │   ├───rectangle: package 'Rectangle-0.96'
     │   ├───render-workflows: package 'render-workflows'
     │   ├───write-flake: package 'write-flake'
@@ -43,7 +42,6 @@
     │   ├───eca-bin: package 'eca-bin-0.149.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-    │   ├───omniwm: package 'OmniWM-0.4.9.6'
     │   ├───rectangle: package 'Rectangle-0.96'
     │   ├───render-workflows: package 'render-workflows'
     │   ├───write-flake: package 'write-flake'
@@ -187,10 +185,6 @@ Darwin package for [Bitwarden](bitwarden.com/)
 ### Rectangle
 
 [Rectangle](https://rectangleapp.com/): Move and resize windows in macOS using keyboard shortcuts or snap areas.
-
-### OmniWM
-
-[OmniWM](https://barutsrb.github.io/OmniWM/): macOS tiling window manager inspired by Niri and Hyprland, developer signed and notarized.
 
 ### Hot
 
