@@ -9,7 +9,7 @@
 
     with lib;
     let
-      cfg = config.programs.ghorg;
+      cfg = config.flakey.programs.ghorg;
 
       # Helper to build ghorg clone commands from structured options
       mkGhorgCmd =
@@ -294,8 +294,36 @@
           (pkgs.formats.yaml { }).generate "ghorg_reclone.yaml" (recloneToYaml cfg.reclone);
     in
     {
+      imports =
+        map
+          (
+            leaf:
+            lib.mkRenamedOptionModuleWith {
+              sinceRelease = 2025;
+              from = [
+                "programs"
+                "ghorg"
+                leaf
+              ];
+              to = [
+                "flakey"
+                "programs"
+                "ghorg"
+                leaf
+              ];
+            }
+          )
+          [
+            "enable"
+            "package"
+            "configFile"
+            "config"
+            "recloneFile"
+            "reclone"
+          ];
+
       options = {
-        programs.ghorg = {
+        flakey.programs.ghorg = {
           enable = mkOption {
             type = types.bool;
             default = false;

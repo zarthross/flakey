@@ -5,56 +5,142 @@
 
 ## Provides
 
-`nix flake show`
+`nix flake show --all-systems`
 
 ```
+├───actions-nix: unknown
+├───checks
+│   ├───aarch64-darwin
+│   │   ├───check-flake-file: derivation 'check-flake-file'
+│   │   ├───package-bitwarden: derivation 'Bitwarden-2026.8.0'
+│   │   ├───package-drift-detector: derivation 'drift-detector-v0.0.7'
+│   │   ├───package-eca-bin: derivation 'eca-bin-0.158.1'
+│   │   ├───package-hot: derivation 'Hot-1.9.4'
+│   │   ├───package-keepingYouAwake: derivation 'KeepingYouAwake-1.6.8'
+│   │   ├───package-rectangle: derivation 'Rectangle-1.100'
+│   │   ├───package-render-workflows: derivation 'render-workflows'
+│   │   ├───package-write-flake: derivation 'write-flake'
+│   │   ├───package-write-inputs: derivation 'write-inputs'
+│   │   ├───package-write-lock: derivation 'write-lock'
+│   │   ├───pre-commit: derivation 'pre-commit-run'
+│   │   └───treefmt: derivation 'treefmt-check'
+│   ├───aarch64-linux
+│   │   ├───check-flake-file: derivation 'check-flake-file'
+│   │   ├───package-drift-detector: derivation 'drift-detector-v0.0.7'
+│   │   ├───package-eca-bin: derivation 'eca-bin-0.158.1'
+│   │   ├───package-render-workflows: derivation 'render-workflows'
+│   │   ├───package-write-flake: derivation 'write-flake'
+│   │   ├───package-write-inputs: derivation 'write-inputs'
+│   │   ├───package-write-lock: derivation 'write-lock'
+│   │   ├───pre-commit: derivation 'pre-commit-run'
+│   │   └───treefmt: derivation 'treefmt-check'
+│   ├───x86_64-darwin
+│   │   ├───check-flake-file: derivation 'check-flake-file'
+│   │   ├───package-bitwarden: derivation 'Bitwarden-2026.8.0'
+│   │   ├───package-drift-detector: derivation 'drift-detector-v0.0.7'
+│   │   ├───package-eca-bin: derivation 'eca-bin-0.158.1'
+│   │   ├───package-hot: derivation 'Hot-1.9.4'
+│   │   ├───package-keepingYouAwake: derivation 'KeepingYouAwake-1.6.8'
+│   │   ├───package-rectangle: derivation 'Rectangle-1.100'
+│   │   ├───package-render-workflows: derivation 'render-workflows'
+│   │   ├───package-write-flake: derivation 'write-flake'
+│   │   ├───package-write-inputs: derivation 'write-inputs'
+│   │   ├───package-write-lock: derivation 'write-lock'
+│   │   ├───pre-commit: derivation 'pre-commit-run'
+│   │   └───treefmt: derivation 'treefmt-check'
+│   └───x86_64-linux
+│       ├───check-flake-file: derivation 'check-flake-file'
+│       ├───package-drift-detector: derivation 'drift-detector-v0.0.7'
+│       ├───package-eca-bin: derivation 'eca-bin-0.158.1'
+│       ├───package-render-workflows: derivation 'render-workflows'
+│       ├───package-write-flake: derivation 'write-flake'
+│       ├───package-write-inputs: derivation 'write-inputs'
+│       ├───package-write-lock: derivation 'write-lock'
+│       ├───pre-commit: derivation 'pre-commit-run'
+│       └───treefmt: derivation 'treefmt-check'
 ├───darwinModules: unknown
+├───devShells
+│   ├───aarch64-darwin
+│   │   └───default: development environment 'devshell'
+│   ├───aarch64-linux
+│   │   └───default: development environment 'devshell'
+│   ├───x86_64-darwin
+│   │   └───default: development environment 'devshell'
+│   └───x86_64-linux
+│       └───default: development environment 'devshell'
+├───formatter
+│   ├───aarch64-darwin: package 'treefmt'
+│   ├───aarch64-linux: package 'treefmt'
+│   ├───x86_64-darwin: package 'treefmt'
+│   └───x86_64-linux: package 'treefmt'
 ├───homeModules: unknown
+├───modules: unknown
 ├───nixosModules
-│   ├───default: NixOS module
 │   ├───allow-unfree-predicates: NixOS module
+│   ├───default: NixOS module
 │   ├───nix-change-report: NixOS module
 │   └───nixos-change-report: NixOS module
 ├───overlays
 │   └───default: Nixpkgs overlay
 └───packages
     ├───aarch64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2026.5.0'
+    │   ├───bitwarden: package 'Bitwarden-2026.8.0'
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.149.1'
+    │   ├───eca-bin: package 'eca-bin-0.158.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-    │   ├───rectangle: package 'Rectangle-0.96'
+    │   ├───rectangle: package 'Rectangle-1.100'
     │   ├───render-workflows: package 'render-workflows'
     │   ├───write-flake: package 'write-flake'
     │   ├───write-inputs: package 'write-inputs'
     │   └───write-lock: package 'write-lock'
     ├───aarch64-linux
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.149.1'
+    │   ├───eca-bin: package 'eca-bin-0.158.1'
     │   ├───render-workflows: package 'render-workflows'
     │   ├───write-flake: package 'write-flake'
     │   ├───write-inputs: package 'write-inputs'
     │   └───write-lock: package 'write-lock'
     ├───x86_64-darwin
-    │   ├───bitwarden: package 'Bitwarden-2026.5.0'
+    │   ├───bitwarden: package 'Bitwarden-2026.8.0'
     │   ├───drift-detector: package 'drift-detector-v0.0.7'
-    │   ├───eca-bin: package 'eca-bin-0.149.1'
+    │   ├───eca-bin: package 'eca-bin-0.158.1'
     │   ├───hot: package 'Hot-1.9.4'
     │   ├───keepingYouAwake: package 'KeepingYouAwake-1.6.8'
-    │   ├───rectangle: package 'Rectangle-0.96'
+    │   ├───rectangle: package 'Rectangle-1.100'
     │   ├───render-workflows: package 'render-workflows'
     │   ├───write-flake: package 'write-flake'
     │   ├───write-inputs: package 'write-inputs'
     │   └───write-lock: package 'write-lock'
     └───x86_64-linux
         ├───drift-detector: package 'drift-detector-v0.0.7'
-        ├───eca-bin: package 'eca-bin-0.149.1'
+        ├───eca-bin: package 'eca-bin-0.158.1'
         ├───render-workflows: package 'render-workflows'
         ├───write-flake: package 'write-flake'
         ├───write-inputs: package 'write-inputs'
         └───write-lock: package 'write-lock'
 ```
+
+`homeModules`, `darwinModules`, and `modules` show as `unknown` because they're
+plain attrsets of module functions rather than a type `nix flake show`
+recognizes — see the sections below for what's actually in them.
+
+### Option Namespacing
+
+Every custom option this flake defines for home-manager (or nix-darwin/NixOS)
+lives under a `flakey.` prefix (e.g. `flakey.programs.eca`), never a bare
+`programs.*`/`services.*`/`system.*` path. Those top-level namespaces belong
+to real home-manager/nix-darwin/NixOS, and declaring an option directly under
+one risks a hard conflict if upstream later ships an option with the exact
+same name — see [Removed: omniwm](#removed-omniwm) below for a case where
+that actually happened.
+
+A couple of modules predate this convention and used a bare `programs.*`
+path (`ghorg`, `drift-detector`) or a different custom prefix
+(`dgibs.programs.eca`). Those old paths still work today via
+`lib.mkRenamedOptionModuleWith` deprecation aliases (you'll get a warning
+pointing at the new `flakey.programs.*` path), but new configs should use
+the `flakey.programs.*` form directly.
 
 ## nixosModules
 ### allow-unfree-predicates
@@ -119,6 +205,72 @@ Creating home file links in /home/my-home
 Activating onFilesChange
 Activating reloadSystemd
 ```
+
+### ghorg
+
+Structured home-manager config for [ghorg](https://github.com/gabrie30/ghorg)
+(bulk-clones GitHub/GitLab/Bitbucket/Gitea/sourcehut orgs and users). Options
+live under `flakey.programs.ghorg` (see [Option Namespacing](#option-namespacing)):
+
+```nix
+flakey.programs.ghorg = {
+  enable = true;
+  reclone = {
+    nix-community = {
+      target = "nix-community";
+      description = "Clone all nix-community repos";
+    };
+  };
+};
+```
+
+Generates `ghorg/conf.yaml` and `ghorg/reclone.yaml` under `$XDG_CONFIG_HOME`.
+
+### eca
+
+Manages [ECA (Editor Code Assistant)](https://eca.dev) configuration.
+Options live under `flakey.programs.eca` (see
+[Option Namespacing](#option-namespacing)). Supports providers, agents, MCP
+servers, tool-call approval rules, and inline or path-based rules/skills;
+writes `~/.config/eca/config.json`.
+
+```nix
+flakey.programs.eca = {
+  enable = true;
+  settings = {
+    defaultModel = "openai/gpt-5.2";
+    providers.openai = {
+      api = "openai-responses";
+      key = "\${env:OPENAI_API_KEY}";
+    };
+  };
+};
+```
+
+### drift-detector
+
+Manages [Drift Detector](https://github.com/yellowstonesoftware/drift-detector)
+config.yaml. Options live under `flakey.programs.drift-detector` (see
+[Option Namespacing](#option-namespacing)).
+
+```nix
+flakey.programs.drift-detector = {
+  enable = true;
+  settings.github.organization = "myorg";
+};
+```
+
+### Removed: omniwm
+
+`flakey` used to ship its own `programs.omniwm` home-manager module for
+[OmniWM](https://github.com/BarutSRB/OmniWM). Upstream home-manager has since
+added its own `programs.omniwm` module at the exact same option path, so
+flakey's copy was removed entirely rather than kept alongside it — two
+independent modules declaring the same option path cannot safely coexist
+(nixpkgs would reject the duplicate declaration), and there was no way to
+"deprecate" the old module without keeping something declared at that path.
+If you were using flakey's `omniwm` module, switch to home-manager's own
+`programs.omniwm` instead.
 
 ## darwinModules
 ### nix-change-report

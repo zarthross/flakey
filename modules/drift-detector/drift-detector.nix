@@ -17,7 +17,7 @@
     }:
     with lib;
     let
-      cfg = config.programs.drift-detector;
+      cfg = config.flakey.programs.drift-detector;
 
       yamlFormat = pkgs.formats.yaml { };
 
@@ -111,7 +111,32 @@
       configFile = yamlFormat.generate "drift-detector-config.yaml" cfg.settings;
     in
     {
-      options.programs.drift-detector = {
+      imports =
+        map
+          (
+            leaf:
+            lib.mkRenamedOptionModuleWith {
+              sinceRelease = 2025;
+              from = [
+                "programs"
+                "drift-detector"
+                leaf
+              ];
+              to = [
+                "flakey"
+                "programs"
+                "drift-detector"
+                leaf
+              ];
+            }
+          )
+          [
+            "enable"
+            "package"
+            "settings"
+          ];
+
+      options.flakey.programs.drift-detector = {
         enable = mkEnableOption "drift-detector CLI configuration";
 
         package = mkOption {

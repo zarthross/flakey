@@ -12,7 +12,7 @@
     }:
     with lib;
     let
-      cfg = config.dgibs.programs.eca;
+      cfg = config.flakey.programs.eca;
 
       # JSON schema URL
       schemaUrl = "https://eca.dev/config.json";
@@ -197,7 +197,33 @@
       );
     in
     {
-      options.dgibs.programs.eca = {
+      imports =
+        map
+          (
+            leaf:
+            lib.mkRenamedOptionModuleWith {
+              sinceRelease = 2025;
+              from = [
+                "dgibs"
+                "programs"
+                "eca"
+                leaf
+              ];
+              to = [
+                "flakey"
+                "programs"
+                "eca"
+                leaf
+              ];
+            }
+          )
+          [
+            "enable"
+            "package"
+            "settings"
+          ];
+
+      options.flakey.programs.eca = {
         enable = mkEnableOption "ECA (Editor Code Assistant) configuration";
 
         package = mkOption {
