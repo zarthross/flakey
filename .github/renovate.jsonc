@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "dependencyDashboard": false,
+  "branchPrefix": "renovate/",
+  "labels": ["dependencies"],
+  // Only the built-in `nix` manager (flake.lock inputs) is enabled for now.
+  // Custom regex managers for GitHub Actions versions (ci.nix) and package
+  // sources.json versions will extend this list separately.
+  "enabledManagers": ["nix"],
+  "packageRules": [
+    {
+      "description": "Batch all flake.lock input updates into a single daily PR instead of one PR per input",
+      "matchManagers": ["nix"],
+      "groupName": "flake.lock updates",
+      "schedule": ["before 6am"]
+    }
+  ]
+}

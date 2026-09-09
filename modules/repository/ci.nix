@@ -34,6 +34,15 @@ let
     name = "Run nix flake check";
     run = "nix flake check";
   };
+
+  runRenovate = {
+    name = "Self-hosted Renovate";
+    uses = "renovatebot/github-action@v46.2.6";
+    "with" = {
+      configurationFile = ".github/renovate-global-config.json";
+      token = "\${{ secrets.RENOVATE_TOKEN }}";
+    };
+  };
 in
 {
   imports = [ inputs.actions-nix.flakeModules.default ];
@@ -104,6 +113,35 @@ in
             runUpdateScript
             runFlakeCheck
             commitChanges
+          ];
+        };
+      };
+
+      # Self-hosted Renovate - daily flake.lock (and, later, other
+      # customManagers-driven) dependency update PRs. Auth via a
+      # fine-grained PAT (secrets.RENOVATE_TOKEN), not a GitHub App -
+      # this is a single personal repo, an App is unneeded overhead here.
+      ".github/workflows/renovate.yaml" = {
+        name = "renovate";
+        on = {
+          workflow_dispatch = { };
+          schedule = [
+            {
+              # runs daily before 6am UTC, matching renovate.jsonc's
+              # "before 6am" schedule window
+              cron = "0 5 * * *";
+            }
+          ];
+        };
+        concurrency = {
+          group = "renovate";
+          cancel-in-progress = true;
+        };
+        jobs.renovate = {
+          runs-on = "ubuntu-latest";
+          steps = [
+            checkout
+            runRenovate
           ];
         };
       };

@@ -1,0 +1,6 @@
+{
+  "onboarding": false,
+  "requireConfig": "optional",
+  "platform": "github",
+  "repositories": ["zarthross/flakey"]
+}
