@@ -7,8 +7,14 @@ let
       ...
     }:
     let
-      inherit (lib) mkOption types;
+      inherit (lib)
+        mkOption
+        mkEnableOption
+        mkIf
+        types
+        ;
       cfg = config.nixpkgs.allowUnfreeRegexes;
+      enableCfg = config.flakey.allow-unfree-predicates;
     in
     {
       imports = [
@@ -23,6 +29,20 @@ let
       ];
 
       options = {
+        flakey.allow-unfree-predicates.enable =
+          mkEnableOption "the flakey allow-unfree-predicates module"
+          // {
+            default = true;
+            description = ''
+              Whether to install the `nixpkgs.allowUnfreeRegexes`-driven
+              `nixpkgs.config.allowUnfreePredicate`. Since
+              `allowUnfreePredicate` is a single function slot, only one
+              module should ever set it — disable this if you (or another
+              module) set `nixpkgs.config.allowUnfreePredicate` yourself,
+              to avoid the two silently clobbering each other.
+            '';
+          };
+
         nixpkgs.allowUnfreeRegexes = mkOption {
           default = [ ];
           type = types.listOf types.str;
@@ -31,7 +51,7 @@ let
         };
       };
 
-      config = {
+      config = mkIf enableCfg.enable {
         nixpkgs.config.allowUnfreePredicate =
           pkg:
           let

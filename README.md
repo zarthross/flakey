@@ -139,8 +139,24 @@ A couple of modules predate this convention and used a bare `programs.*`
 path (`ghorg`, `drift-detector`) or a different custom prefix
 (`dgibs.programs.eca`). Those old paths still work today via
 `lib.mkRenamedOptionModuleWith` deprecation aliases (you'll get a warning
-pointing at the new `flakey.programs.*` path), but new configs should use
-the `flakey.programs.*` form directly.
+pointing at the new `flakey.*` path), but new configs should use
+the `flakey.*` form directly.
+
+
+### Enable Options
+
+Every module that wires up config unconditionally the moment it's imported
+also declares a `flakey.<module-name>.enable` option, defaulting to `true`
+(matching today's always-on behavior). This matters in particular for
+modules bundled into `nixosModules.default`/`darwinModules.default`/
+`homeModules.default` (see `modules/default-modules.nix`) — without an
+`enable` option there'd be no way to opt out of a piece of `default` short
+of not using `default` at all. Set the option to `false` to opt out:
+
+```nix
+flakey.nix-change-report.enable = false;
+flakey.allow-unfree-predicates.enable = false;
+```
 
 ## nixosModules
 ### allow-unfree-predicates
@@ -169,9 +185,16 @@ now you can write:
 nixpkgs.allowUnfreeRegexes = ["slack" "discord"];
 ```
 
+Enabled by default via `flakey.allow-unfree-predicates.enable`. Since
+`nixpkgs.config.allowUnfreePredicate` is a single function slot, set this to
+`false` if you (or another module) set `allowUnfreePredicate` yourself, to
+avoid the two silently clobbering each other.
+
 ### nix-change-report
 
 Automatically adds a change report using `nvd` to each nixos activation.
+Enabled by default via `flakey.nix-change-report.enable`; set to `false` to
+disable.
 
 ## homeModules
 ### allow-unfree-predicates
@@ -180,6 +203,8 @@ Automatically adds a change report using `nvd` to each nixos activation.
 ### nix-change-report
 
 Automatically adds a change report using `nvd` to each home-manager activation.
+Enabled by default via `flakey.nix-change-report.enable`; set to `false` to
+disable.
 
 ```
 ❯ home-manager switch
@@ -276,6 +301,8 @@ If you were using flakey's `omniwm` module, switch to home-manager's own
 ### nix-change-report
 
 Automatically adds a change report using `nvd` to each darwin-nix activation.
+Enabled by default via `flakey.nix-change-report.enable`; set to `false` to
+disable.
 
 ## Darwin packages
 
