@@ -63,10 +63,10 @@ let
     };
 in
 {
-  # Not exported as flake.modules.darwin.allow-unfree-predicates today, even
-  # though it would work there unmodified (nix-darwin has the same
-  # nixpkgs.config.allowUnfreePredicate option). Preserved as-is; adding the
-  # darwin export is tracked as a deferred follow-up.
+  # nix-darwin has the same nixpkgs.config.allowUnfreePredicate option as
+  # NixOS/home-manager, so this module works unmodified for all three
+  # classes and is bundled into each class's `default` in
+  # modules/default-modules.nix.
   flake.modules.nixos.allow-unfree-predicates = allowUnfreePredicates;
   flake.modules.homeManager.allow-unfree-predicates = allowUnfreePredicates;
   flake.modules.darwin.allow-unfree-predicates = allowUnfreePredicates;

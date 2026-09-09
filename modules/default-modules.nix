@@ -46,7 +46,10 @@ in
 
   flake.darwinModules = darwinModules // {
     default = {
-      imports = [ darwinModules.nix-change-report ];
+      imports = [
+        darwinModules.nix-change-report
+        darwinModules.allow-unfree-predicates
+      ];
     };
   };
 
@@ -61,9 +64,15 @@ in
 
   flake.homeModules = homeModules // {
     default = {
+      # ghorg/eca/drift-detector all default to `enable = false`, so
+      # importing `default` doesn't turn any of them on by itself - it just
+      # makes their options available to configure.
       imports = [
         homeModules.nix-change-report
         homeModules.allow-unfree-predicates
+        homeModules.ghorg
+        homeModules.eca
+        homeModules.drift-detector
       ];
     };
   };
