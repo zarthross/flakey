@@ -15,12 +15,8 @@
   "nix": {
     "enabled": true
   },
-  "packageRules": [
-    {
-      "description": "Batch all flake.lock input updates into a single daily PR instead of one PR per input",
-      "matchManagers": ["nix"],
-      "groupName": "flake.lock updates",
-      "schedule": ["before 6am"]
-    }
-  ]
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am"]
+  }
 }
