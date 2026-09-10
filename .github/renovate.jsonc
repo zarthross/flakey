@@ -8,6 +8,13 @@
   // Custom regex managers for GitHub Actions versions (ci.nix) and package
   // sources.json versions will extend this list separately.
   "enabledManagers": ["nix"],
+  // The `nix` manager ships with `enabled: false` in its own defaultConfig
+  // (it's opt-in, unlike most GitHub-recommended managers) - enabledManagers
+  // above only controls which managers are *allowed* to run, it does NOT
+  // flip this per-manager default. Both are required.
+  "nix": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "description": "Batch all flake.lock input updates into a single daily PR instead of one PR per input",
