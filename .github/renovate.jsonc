@@ -4,10 +4,14 @@
   "dependencyDashboard": false,
   "branchPrefix": "renovate/",
   "labels": ["dependencies"],
-  // Only the built-in `nix` manager (flake.lock inputs) is enabled for now.
-  // Custom regex managers for GitHub Actions versions (ci.nix) and package
-  // sources.json versions will extend this list separately.
-  "enabledManagers": ["nix"],
+  // The `nix` manager (flake.lock inputs) and `custom.jsonata` (custom
+  // manager below, for pinned-actions.json) are enabled. A custom regex
+  // manager for per-package sources.json versions will extend this list
+  // separately.
+  // Note: when enabledManagers is set, custom managers must be explicitly
+  // added as "custom.jsonata"/"custom.regex", or they silently extract
+  // nothing - same trap as the nix manager's own enabled flag below.
+  "enabledManagers": ["nix", "custom.jsonata"],
   // The `nix` manager ships with `enabled: false` in its own defaultConfig
   // (it's opt-in, unlike most GitHub-recommended managers) - enabledManagers
   // above only controls which managers are *allowed* to run, it does NOT
@@ -18,5 +22,46 @@
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 6am"]
-  }
+  },
+  // 3-day cooldown before proposing any update, so a freshly (possibly
+  // compromised or buggy) tagged release has time to be pulled/flagged
+  // upstream before flakey picks it up.
+  "minimumReleaseAge": "3 days",
+  // GitHub Actions versions used in generated .github/workflows/*.yaml are
+  // NOT edited directly - they're rendered by `nix run .#render-workflows`
+  // from modules/repository/ci.nix's `actionUses` helper, which reads
+  // modules/repository/ci/pinned-actions.json (the actual source of truth).
+  // Kept as plain JSON, not Nix, so Renovate's JSONata custom manager can
+  // update it directly without needing to parse/edit Nix syntax.
+  "customManagers": [
+    {
+      "customType": "jsonata",
+      "description": "Update pinned GitHub Actions recorded in modules/repository/ci/pinned-actions.json",
+      "fileFormat": "json",
+      "managerFilePatterns": ["/^modules/repository/ci/pinned-actions\\.json$/"],
+      "matchStrings": [
+        "$each($, function($v, $k) { { \"depName\": $k, \"currentValue\": $v.version, \"currentDigest\": $v.sha } })"
+      ],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Pin GitHub Actions to commit SHA, keeping the version tag as the readable value",
+      "matchDatasources": ["github-tags"],
+      "pinDigests": true
+    },
+    {
+      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json changes, so the Nix-rendered workflows stay in sync in the same commit",
+      "matchFileNames": ["modules/repository/ci/pinned-actions.json"],
+      "postUpgradeTasks": {
+        "commands": ["bash modules/repository/ci/renovate-render-workflows.sh"],
+        "executionMode": "branch",
+        "fileFilters": [".github/workflows/*.yaml"],
+        "installTools": {
+          "nix": {}
+        }
+      }
+    }
+  ]
 }

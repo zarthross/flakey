@@ -1,12 +1,22 @@
 { inputs, ... }:
 let
+  # Single source of truth for pinned GitHub Action versions/SHAs.
+  # Kept as data (not Nix) so Renovate's JSONata custom manager can update it
+  # directly. See .github/renovate.jsonc for the manager config that keeps
+  # this file up to date.
+  pinnedActions = builtins.fromJSON (builtins.readFile ./ci/pinned-actions.json);
+  # Renders "owner/repo@<sha>" pinned to the commit SHA recorded in
+  # pinned-actions.json. The human-readable version (e.g. "v4") lives only in
+  # pinned-actions.json, not here.
+  actionUses = name: "${name}@${pinnedActions.${name}.sha}";
+
   # Reusable action components
   checkout = {
-    uses = "actions/checkout@v4";
+    uses = actionUses "actions/checkout";
   };
 
   installNixAction = {
-    uses = "cachix/install-nix-action@v30";
+    uses = actionUses "cachix/install-nix-action";
     "with" = {
       nix_path = "nixpkgs=channel:nixos-unstable";
     };
@@ -22,7 +32,7 @@ let
   };
 
   commitChanges = {
-    uses = "EndBug/add-and-commit@v9";
+    uses = actionUses "EndBug/add-and-commit";
     "with" = {
       default_author = "github_actions";
       message = "Update package versions";
@@ -37,7 +47,7 @@ let
 
   runRenovate = {
     name = "Self-hosted Renovate";
-    uses = "renovatebot/github-action@v46.2.6";
+    uses = actionUses "renovatebot/github-action";
     "with" = {
       configurationFile = ".github/renovate-global-config.json";
       token = "\${{ secrets.RENOVATE_TOKEN }}";

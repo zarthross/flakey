@@ -1,0 +1,18 @@
+{
+  "actions/checkout": {
+    "version": "v3",
+    "sha": "a37ce9120846195fa4ece8f58b268e6043cb2f26"
+  },
+  "cachix/install-nix-action": {
+    "version": "v25",
+    "sha": "6004951b182f8860210c8d6f0d808ec5b1a33d28"
+  },
+  "EndBug/add-and-commit": {
+    "version": "v9",
+    "sha": "a94899bca583c204427a224a7af87c02f9b325d5"
+  },
+  "renovatebot/github-action": {
+    "version": "v46.2.6",
+    "sha": "37beffda261423addd537c33f2d126df7f6ffbab"
+  }
+}
