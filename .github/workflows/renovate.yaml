@@ -15,6 +15,7 @@ jobs:
       uses: renovatebot/github-action@37beffda261423addd537c33f2d126df7f6ffbab
       with:
         configurationFile: .github/renovate-global-config.json
+        renovate-version: 44.68.3
         token: ${{ secrets.RENOVATE_TOKEN }}
 name: renovate
 'on':

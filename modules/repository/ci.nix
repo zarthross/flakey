@@ -51,6 +51,14 @@ let
     "with" = {
       configurationFile = ".github/renovate-global-config.json";
       token = "\${{ secrets.RENOVATE_TOKEN }}";
+      # Pinned to an explicit patch version rather than left on the action's
+      # default floating "44" major-version tag: a floating tag can start
+      # resolving to a same-day, still-cooking Renovate image at any moment
+      # with no warning, unlike every other action pin in this file which
+      # goes through pinned-actions.json's SHA pinning. Kept up to date via
+      # the customManager in .github/renovate.jsonc (guarded by the repo's
+      # minimumReleaseAge cooldown, same as everything else).
+      renovate-version = "44.68.3";
     };
   };
 in
