@@ -48,6 +48,7 @@ let
   runRenovate = {
     name = "Self-hosted Renovate";
     uses = actionUses "renovatebot/github-action";
+    env.LOG_LEVEL = "debug"; # TEMP: debugging "Repository has changed" abort
     "with" = {
       configurationFile = ".github/renovate-global-config.json";
       token = "\${{ secrets.RENOVATE_TOKEN }}";
