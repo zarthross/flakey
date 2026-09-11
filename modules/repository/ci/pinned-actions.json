@@ -1,7 +1,7 @@
 {
   "actions/checkout": {
-    "version": "v3",
-    "sha": "a37ce9120846195fa4ece8f58b268e6043cb2f26"
+    "version": "v7.0.1",
+    "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   "cachix/install-nix-action": {
     "version": "v25",
