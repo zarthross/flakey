@@ -1,9 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "dependencyDashboard": false,
+  "dependencyDashboard": true,
   "branchPrefix": "renovate/",
   "labels": ["dependencies"],
+  // Avoids the default renovate@whitesourcesoftware.com author, which Mend
+  // flags with "Vigilant Mode" (visibly-unsigned-commit warnings) on
+  // GitHub.com since that address belongs to an account this repo doesn't
+  // control. Attributing commits to the repo owner's own identity instead.
+  "gitAuthor": "zarthross (via renovate) <1111592+zarthross@users.noreply.github.com>",
   // The `nix` manager (flake.lock inputs), `custom.jsonata` (pinned-actions.json),
   // and `custom.regex` (renovate-version pin below) are enabled. A custom
   // regex manager for per-package sources.json versions will extend this
