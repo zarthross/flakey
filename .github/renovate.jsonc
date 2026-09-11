@@ -4,14 +4,14 @@
   "dependencyDashboard": false,
   "branchPrefix": "renovate/",
   "labels": ["dependencies"],
-  // The `nix` manager (flake.lock inputs) and `custom.jsonata` (custom
-  // manager below, for pinned-actions.json) are enabled. A custom regex
-  // manager for per-package sources.json versions will extend this list
-  // separately.
+  // The `nix` manager (flake.lock inputs), `custom.jsonata` (pinned-actions.json),
+  // and `custom.regex` (renovate-version pin below) are enabled. A custom
+  // regex manager for per-package sources.json versions will extend this
+  // list separately.
   // Note: when enabledManagers is set, custom managers must be explicitly
   // added as "custom.jsonata"/"custom.regex", or they silently extract
   // nothing - same trap as the nix manager's own enabled flag below.
-  "enabledManagers": ["nix", "custom.jsonata"],
+  "enabledManagers": ["nix", "custom.jsonata", "custom.regex"],
   // The `nix` manager ships with `enabled: false` in its own defaultConfig
   // (it's opt-in, unlike most GitHub-recommended managers) - enabledManagers
   // above only controls which managers are *allowed* to run, it does NOT
@@ -43,6 +43,18 @@
         "$each($, function($v, $k) { { \"depName\": $k, \"currentValue\": $v.version, \"currentDigest\": $v.sha } })"
       ],
       "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the pinned renovate-version (renovatebot/github-action input, in modules/repository/ci.nix) up to date. Deliberately pinned rather than left on the action's default floating '44' tag, so a broken release can't silently start being used. This still benefits from minimumReleaseAge above, so a newly published release must survive 3 days untouched before it's proposed here.",
+      "managerFilePatterns": ["/^modules/repository/ci\\.nix$/"],
+      "matchStrings": [
+        "renovate-version = \"(?<currentValue>[\\d.]+)\";"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "ghcr.io/renovatebot/renovate",
+      "versioningTemplate": "docker",
+      "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)$"
     }
   ],
   "packageRules": [
@@ -52,8 +64,11 @@
       "pinDigests": true
     },
     {
-      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json changes, so the Nix-rendered workflows stay in sync in the same commit",
-      "matchFileNames": ["modules/repository/ci/pinned-actions.json"],
+      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json or ci.nix's renovate-version pin changes, so the Nix-rendered workflows stay in sync in the same commit",
+      "matchFileNames": [
+        "modules/repository/ci/pinned-actions.json",
+        "modules/repository/ci.nix"
+      ],
       "postUpgradeTasks": {
         "commands": ["bash modules/repository/ci/renovate-render-workflows.sh"],
         "executionMode": "branch",
