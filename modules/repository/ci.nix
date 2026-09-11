@@ -48,7 +48,26 @@ let
   runRenovate = {
     name = "Self-hosted Renovate";
     uses = actionUses "renovatebot/github-action";
-    env.LOG_LEVEL = "debug"; # TEMP: debugging "Repository has changed" abort
+    env = {
+      LOG_LEVEL = "debug"; # TEMP: debugging "Repository has changed" abort
+      # postUpgradeTasks run inside this container. Store operations
+      # (build/substitute) go through the bind-mounted host nix daemon set
+      # up by installNixAction above, so no store credentials need to be
+      # injected here. Flake-input fetching (e.g. resolving flake.lock)
+      # happens client-side though, so GITHUB_TOKEN is still passed
+      # through, via RENOVATE_CUSTOM_ENV_VARIABLES (the only
+      # env-injection mechanism that reaches postUpgradeTasks child
+      # processes) routed through RENOVATE_SECRETS + {{ secrets.X }}
+      # templating (rather than placing the raw value directly in
+      # customEnvVariables) so it's redacted in logs.
+      # https://docs.renovatebot.com/self-hosted-configuration/#customenvvariables
+      RENOVATE_SECRETS = builtins.toJSON {
+        GITHUB_TOKEN = "\${{ secrets.GITHUB_TOKEN }}";
+      };
+      RENOVATE_CUSTOM_ENV_VARIABLES = builtins.toJSON {
+        GITHUB_TOKEN = "{{ secrets.GITHUB_TOKEN }}";
+      };
+    };
     "with" = {
       configurationFile = ".github/renovate-global-config.json";
       token = "\${{ secrets.RENOVATE_TOKEN }}";
@@ -60,6 +79,19 @@ let
       # the customManager in .github/renovate.jsonc (guarded by the repo's
       # minimumReleaseAge cooldown, same as everything else).
       renovate-version = "44.68.3";
+      # Bind-mounts the runner host's real nix (store + running daemon, set
+      # up by installNixAction above) into Renovate's container, so
+      # postUpgradeTasks' nix invocations substitute from cache.nixos.org
+      # instead of building the whole dependency closure from source
+      # (containerbase/base#7339). Must re-include the action's own default
+      # (/tmp:/tmp) since providing this input overrides it rather than
+      # adding to it.
+      docker-volumes = "/tmp:/tmp ; /nix:/nix";
+      # Runs as root long enough to fix up PATH/NIX_REMOTE for the
+      # bind-mounted daemon, then drops to the unprivileged user Renovate
+      # normally runs as.
+      docker-cmd-file = "modules/repository/ci/renovate-docker-cmd.sh";
+      docker-user = "root";
     };
   };
 in
@@ -160,6 +192,12 @@ in
           runs-on = "ubuntu-latest";
           steps = [
             checkout
+            # Sets up a real, substitution-capable nix (daemon + populated
+            # store) on the runner host, so Renovate's postUpgradeTasks can
+            # use it via a bind mount instead of containerbase's
+            # installTools.nix, which can't substitute from any binary
+            # cache (see renovate-docker-cmd.sh and containerbase/base#7339).
+            installNixAction
             runRenovate
           ];
         };

@@ -11,12 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26
+    - uses: cachix/install-nix-action@6004951b182f8860210c8d6f0d808ec5b1a33d28
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
     - env:
         LOG_LEVEL: debug
+        RENOVATE_CUSTOM_ENV_VARIABLES: '{"GITHUB_TOKEN":"{{ secrets.GITHUB_TOKEN }}"}'
+        RENOVATE_SECRETS: '{"GITHUB_TOKEN":"${{ secrets.GITHUB_TOKEN }}"}'
       name: Self-hosted Renovate
       uses: renovatebot/github-action@37beffda261423addd537c33f2d126df7f6ffbab
       with:
         configurationFile: .github/renovate-global-config.json
+        docker-cmd-file: modules/repository/ci/renovate-docker-cmd.sh
+        docker-user: root
+        docker-volumes: /tmp:/tmp ; /nix:/nix
         renovate-version: 44.68.3
         token: ${{ secrets.RENOVATE_TOKEN }}
 name: renovate
