@@ -8,8 +8,8 @@
     "sha": "6004951b182f8860210c8d6f0d808ec5b1a33d28"
   },
   "EndBug/add-and-commit": {
-    "version": "v9",
-    "sha": "a94899bca583c204427a224a7af87c02f9b325d5"
+    "version": "v11.1.1",
+    "sha": "cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8"
   },
   "renovatebot/github-action": {
     "version": "v46.2.6",
