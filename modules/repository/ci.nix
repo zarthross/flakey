@@ -176,6 +176,9 @@ in
         name = "renovate";
         on = {
           workflow_dispatch = { };
+          # picks up dashboard/PR checkbox clicks immediately
+          issues.types = [ "edited" ];
+          pull_request.types = [ "edited" ];
           schedule = [
             {
               # runs daily before 6am UTC, matching renovate.jsonc's
@@ -186,10 +189,22 @@ in
         };
         concurrency = {
           group = "renovate";
-          cancel-in-progress = true;
+          # Queue, don't cancel: with issues/pull_request triggers now
+          # firing mid-run, cancelling could abort a run mid-git-push and
+          # leave a branch half-committed.
+          cancel-in-progress = false;
         };
         jobs.renovate = {
           runs-on = "ubuntu-latest";
+          # schedule/dispatch always run. issues/pull_request only run for a
+          # human's edit to the Dependency Dashboard issue or a renovate/*
+          # PR - Renovate's own rewrites (sender.type == Bot) are filtered
+          # out, or every run would retrigger itself.
+          "if" = ''
+            github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+            (github.event_name == 'issues' && github.event.sender.type == 'User' && github.event.issue.title == 'Dependency Dashboard') ||
+            (github.event_name == 'pull_request' && github.event.sender.type == 'User' && startsWith(github.event.pull_request.head.ref, 'renovate/'))
+          '';
           steps = [
             checkout
             # Sets up a real, substitution-capable nix (daemon + populated

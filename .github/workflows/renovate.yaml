@@ -4,10 +4,14 @@
 #   nix run .#render-workflows
 # Or commit to trigger the pre-commit hook if enabled.
 concurrency:
-  cancel-in-progress: true
+  cancel-in-progress: false
   group: renovate
 jobs:
   renovate:
+    if: |-
+      github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' && github.event.sender.type == 'User' && github.event.issue.title == 'Dependency Dashboard') ||
+      (github.event_name == 'pull_request' && github.event.sender.type == 'User' && startsWith(github.event.pull_request.head.ref, 'renovate/'))
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -29,6 +33,12 @@ jobs:
         token: ${{ secrets.RENOVATE_TOKEN }}
 name: renovate
 'on':
+  issues:
+    types:
+    - edited
+  pull_request:
+    types:
+    - edited
   schedule:
   - cron: 0 5 * * *
   workflow_dispatch: {}
