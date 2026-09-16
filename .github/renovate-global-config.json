@@ -3,5 +3,8 @@
   "requireConfig": "optional",
   "platform": "github",
   "repositories": ["zarthross/flakey"],
-  "allowedCommands": ["^bash modules/repository/ci/renovate-render-workflows\\.sh$"]
+  "allowedCommands": [
+    "^bash modules/repository/ci/renovate-render-workflows\\.sh$",
+    "^bash update-hash\\.sh$"
+  ]
 }

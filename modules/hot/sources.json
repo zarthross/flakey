@@ -1,4 +1,8 @@
 {
+  "owner": "macmade",
+  "repo": "Hot",
+  "tag": "1.9.4",
+  "asset_pattern": "Hot(.app)?\\.zip$",
   "version": "1.9.4",
   "id": 178726812,
   "name": "Hot.zip",

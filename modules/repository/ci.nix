@@ -22,24 +22,6 @@ let
     };
   };
 
-  runUpdateScript = {
-    name = "Run update script";
-    env.GH_TOKEN = "\${{ secrets.GITHUB_TOKEN }}";
-    run = ''
-      chmod +x ./modules/repository/ci/run-update-all-sources.sh
-      ./modules/repository/ci/run-update-all-sources.sh
-    '';
-  };
-
-  commitChanges = {
-    uses = actionUses "EndBug/add-and-commit";
-    "with" = {
-      default_author = "github_actions";
-      message = "Update package versions";
-      add = "modules/**/sources.json";
-    };
-  };
-
   runFlakeCheck = {
     name = "Run nix flake check";
     run = "nix flake check";
@@ -135,35 +117,6 @@ in
             checkout
             installNixAction
             runFlakeCheck
-          ];
-        };
-      };
-
-      # Define the update-sources workflow
-      ".github/workflows/update-sources.yaml" = {
-        name = "update-sources";
-        on = {
-          workflow_dispatch = { };
-          schedule = [
-            {
-              # runs every midnight
-              cron = "0 0 * * *";
-            }
-          ];
-          push.branches = [ "main" ];
-        };
-        concurrency = {
-          group = "update-sources";
-          cancel-in-progress = true;
-        };
-        jobs.update-sources = {
-          runs-on = "ubuntu-latest";
-          steps = [
-            checkout
-            installNixAction
-            runUpdateScript
-            runFlakeCheck
-            commitChanges
           ];
         };
       };

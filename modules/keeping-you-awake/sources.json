@@ -1,4 +1,8 @@
 {
+  "owner": "newmarcel",
+  "repo": "KeepingYouAwake",
+  "tag": "1.6.8",
+  "asset_pattern": "^KeepingYouAwake-.+zip$",
   "version": "1.6.8",
   "id": 292499788,
   "name": "KeepingYouAwake-1.6.8.zip",
