@@ -5,10 +5,4 @@
 set -euo pipefail
 
 source "$(dirname "$0")/../repository/ci/lib/github-release-update.sh"
-
-echo "Updating Hot"
-
-update_github_release macmade Hot 'Hot(.app)?\.zip$' |
-  jq . >"$(dirname "$0")/sources.json"
-
-echo "✓ Updated"
+update_single_asset_hash "$(dirname "$0")/sources.json"

@@ -1,4 +1,10 @@
 {
+  "owner": "bitwarden",
+  "repo": "clients",
+  "tag": "desktop-v2026.8.0",
+  "asset_pattern": "\\.dmg$",
+  "hash_source_pattern": "^latest-mac\\.yml$",
+  "version_transform": "split(\"-v\") | .[1]",
   "version": "2026.8.0",
   "release_id": 373873712,
   "url": "https://github.com/bitwarden/clients/releases/download/desktop-v2026.8.0/Bitwarden-2026.8.0-universal.dmg",

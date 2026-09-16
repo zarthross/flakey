@@ -1,4 +1,9 @@
 {
+  "owner": "rxhanson",
+  "repo": "Rectangle",
+  "tag": "v1.100",
+  "asset_pattern": "\\.dmg$",
+  "version_transform": "sub(\"^v\"; \"\")",
   "version": "1.100",
   "id": 530026968,
   "name": "Rectangle1.100.dmg",

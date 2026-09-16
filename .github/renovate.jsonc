@@ -13,9 +13,8 @@
   // real PR's commit author ended up as plain "zarthross" instead.
   "gitAuthor": "\"zarthross (via renovate)\" <1111592+zarthross@users.noreply.github.com>",
   // The `nix` manager (flake.lock inputs), `custom.jsonata` (pinned-actions.json),
-  // and `custom.regex` (renovate-version pin below) are enabled. A custom
-  // regex manager for per-package sources.json versions will extend this
-  // list separately.
+  // and `custom.regex` (renovate-version pin, per-package sources.json tags)
+  // are enabled.
   // Note: when enabledManagers is set, custom managers must be explicitly
   // added as "custom.jsonata"/"custom.regex", or they silently extract
   // nothing - same trap as the nix manager's own enabled flag below.
@@ -63,6 +62,15 @@
       "packageNameTemplate": "ghcr.io/renovatebot/renovate",
       "versioningTemplate": "docker",
       "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)$"
+    },
+    {
+      "customType": "jsonata",
+      "description": "Bump each package's tag in modules/*/sources.json. owner/repo/tag are read directly from each file, so adding a new package needs no change here. bitwarden/clients ships web/cli/desktop/browser releases in one tag stream, so it alone gets an extractVersion filtering to desktop- tags while keeping the literal tag string (update-hash.sh fetches by this exact tag).",
+      "fileFormat": "json",
+      "managerFilePatterns": ["/^modules/[^/]+/sources\\.json$/"],
+      "matchStrings": [
+        "$merge([{ \"depName\": owner & \"/\" & repo, \"currentValue\": tag, \"datasource\": \"github-releases\" }, owner = \"bitwarden\" ? { \"extractVersion\": \"^(?<version>desktop-v.*)$\" } : {}])"
+      ]
     }
   ],
   "packageRules": [
@@ -81,6 +89,15 @@
         "commands": ["bash modules/repository/ci/renovate-render-workflows.sh"],
         "executionMode": "branch",
         "fileFilters": [".github/workflows/*.yaml"]
+      }
+    },
+    {
+      "description": "Refresh url/hash/version for the one package whose sources.json tag changed, by running its own update-hash.sh. workingDirTemplate scopes the command to that package's directory, so a sibling package's script never runs.",
+      "matchFileNames": ["modules/*/sources.json"],
+      "postUpgradeTasks": {
+        "commands": ["bash update-hash.sh"],
+        "executionMode": "branch",
+        "workingDirTemplate": "{{{packageFileDir}}}"
       }
     }
   ]

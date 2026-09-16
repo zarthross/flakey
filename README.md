@@ -1,7 +1,7 @@
 # Flakey
 
 [![CI](https://github.com/zarthross/flakey/actions/workflows/ci.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/ci.yaml)
-[![Update Sources](https://github.com/zarthross/flakey/actions/workflows/update-sources.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/update-sources.yaml)
+[![Renovate](https://github.com/zarthross/flakey/actions/workflows/renovate.yaml/badge.svg)](https://github.com/zarthross/flakey/actions/workflows/renovate.yaml)
 
 ## Provides
 
@@ -308,14 +308,18 @@ disable.
 
 A few OSX Apps that I use that aren't in nixpkgs, so I've add them to this repo.
 
-These are auto-updated nightly using GitHub Actions.
+Renovate proposes `tag` bumps (see `.github/renovate.jsonc`); each package's
+`update-hash.sh` then refreshes `url`/`hash` for that tag.
 
 ### Package Management
 
 Packages use the `sources.json` pattern:
-- Each package has `sources.json` with `version`, `url`, and `hash`
-- `default.nix` uses `lib.importJSON ./sources.json` (pure, flake-friendly)
-- Multi-platform packages (like `eca-bin`) key by system: `sources.${stdenv.hostPlatform.system}`
+- Each `sources.json` holds `owner`, `repo`, `tag`, an asset pattern, and the
+  resulting `version`, `url`, `hash`
+- `NAME.pkg.nix` uses `lib.importJSON ./sources.json`
+- Multi-platform packages (`eca`, `drift-detector`) key asset info by system
+- `update-hash.sh` fetches only the release for the `tag` already on disk -
+  never "latest" - so Renovate controls when a new tag is picked up
 
 ### Adding a New Package
 
@@ -336,22 +340,22 @@ Packages use the `sources.json` pattern:
    `flake.modules.<class>.<name>` (see `modules/bitwarden/bitwarden.nix` for a
    minimal example).
 
-3. Create `modules/NAME/update.sh`:
-   ```bash
-   #!/usr/bin/env nix-shell
-   #!nix-shell -i bash -p jq curl gh
-   source "$(dirname "$0")/../repository/ci/lib/github-release-update.sh"
-   update_github_release OWNER REPO 'ASSET_PATTERN' | jq . > "$(dirname "$0")/sources.json"
-   ```
+3. Write `modules/NAME/sources.json` by hand with `owner`, `repo`, `tag`, an
+   asset pattern, and placeholder `version`/`url`/`hash`.
 
-4. Run `./modules/repository/ci/run-update-all-sources.sh` to generate initial `sources.json`
+4. Create `modules/NAME/update-hash.sh` (see `modules/hot/update-hash.sh` for
+   a minimal example, or `modules/bitwarden` for a sidecar-hash example),
+   then run it to fill in `version`/`url`/`hash`.
+
+   No `.github/renovate.jsonc` changes needed - its JSONata customManager
+   picks up any `modules/*/sources.json` with `owner`/`repo`/`tag` fields.
 
 ### Updating Packages
 
-Run `./modules/repository/ci/run-update-all-sources.sh` to update all packages. This:
-- Fetches latest releases from GitHub
-- Downloads and hashes artifacts
-- Updates `sources.json` files
+Renovate bumps `tag` and runs that package's `update-hash.sh` as a
+`postUpgradeTasks` step, landing `url`/`hash`/`version` in the same PR.
+
+To refresh manually: `./modules/NAME/update-hash.sh`.
 
 ### Bitwarden
 
