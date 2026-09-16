@@ -92,10 +92,10 @@
       }
     },
     {
-      "description": "Refresh url/hash/version for the one package whose sources.json tag changed, by running its own update-hash.sh. workingDirTemplate scopes the command to that package's directory, so a sibling package's script never runs.",
+      "description": "Refresh url/hash/version for the one package whose sources.json tag changed, by running its own update-hash.sh. workingDirTemplate scopes the command to that package's directory, so a sibling package's script never runs. Invoked as ./update-hash.sh (not \"bash update-hash.sh\") so its #!/usr/bin/env nix-shell shebang is actually honored - confirmed live that \"bash update-hash.sh\" skips the shebang line entirely, leaving jq/curl/gh unprovisioned.",
       "matchFileNames": ["modules/*/sources.json"],
       "postUpgradeTasks": {
-        "commands": ["bash update-hash.sh"],
+        "commands": ["./update-hash.sh"],
         "executionMode": "branch",
         "workingDirTemplate": "{{{packageFileDir}}}"
       }
