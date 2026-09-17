@@ -64,15 +64,17 @@ in
 
   flake.homeModules = homeModules // {
     default = {
-      # ghorg/eca/drift-detector all default to `enable = false`, so
-      # importing `default` doesn't turn any of them on by itself - it just
-      # makes their options available to configure.
+      # ghorg/eca/drift-detector all default to `enable = false`, and
+      # doom-init is inert until `flakey.programs.doom.init`/`.config` are
+      # set, so importing `default` doesn't turn any of them on by itself -
+      # it just makes their options available to configure.
       imports = [
         homeModules.nix-change-report
         homeModules.allow-unfree-predicates
         homeModules.ghorg
         homeModules.eca
         homeModules.drift-detector
+        homeModules.doom-init
       ];
     };
   };
