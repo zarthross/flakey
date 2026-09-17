@@ -92,10 +92,12 @@
       }
     },
     {
-      "description": "Refresh url/hash/version for the one package whose sources.json tag changed, by running its own update-hash.sh. workingDirTemplate scopes the command to that package's directory, so a sibling package's script never runs. Run via `nix develop ../.. -c` (devshell provides jq/curl/gh) rather than a nix-shell shebang, which doesn't work inside Renovate's container (no NIX_PATH reaches it there).",
+      "description": "Refresh url/hash/version for the one package whose sources.json tag changed, by running its own update-hash.sh. workingDirTemplate scopes the command to that package's directory, so a sibling package's script never runs. Run via `nix develop ../.. -c` (devshell provides jq/curl/gh) rather than a nix-shell shebang, which doesn't work inside Renovate's container (no NIX_PATH reaches it there). The container's nix binary has no nix.conf enabling flakes/nix-command (that's client-side config, not inherited via the bind-mounted daemon), so the flags must be passed explicitly here - confirmed live.",
       "matchFileNames": ["modules/*/sources.json"],
       "postUpgradeTasks": {
-        "commands": ["nix develop ../.. -c ./update-hash.sh"],
+        "commands": [
+          "nix --extra-experimental-features nix-command --extra-experimental-features flakes develop ../.. -c ./update-hash.sh"
+        ],
         "executionMode": "branch",
         "workingDirTemplate": "{{{packageFileDir}}}"
       }
