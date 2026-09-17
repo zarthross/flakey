@@ -1,5 +1,5 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i bash -p jq curl gh nix
+#!/usr/bin/env bash
+# Run via `nix develop -c ./update-hash.sh` (devshell provides jq/curl/gh).
 # shellcheck shell=bash
 
 set -euo pipefail

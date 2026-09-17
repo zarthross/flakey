@@ -16,6 +16,12 @@
     }:
     {
       devshells.default = {
+        packages = [
+          pkgs.jq
+          pkgs.curl
+          pkgs.gh
+          pkgs.yq
+        ];
         commands = [
           { package = pkgs.deadnix; }
           { package = config.treefmt.build.wrapper; }

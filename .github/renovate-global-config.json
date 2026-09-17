@@ -5,6 +5,6 @@
   "repositories": ["zarthross/flakey"],
   "allowedCommands": [
     "^bash modules/repository/ci/renovate-render-workflows\\.sh$",
-    "^\\./update-hash\\.sh$"
+    "^nix develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
   ]
 }

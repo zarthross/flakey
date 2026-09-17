@@ -355,7 +355,7 @@ Packages use the `sources.json` pattern:
 Renovate bumps `tag` and runs that package's `update-hash.sh` as a
 `postUpgradeTasks` step, landing `url`/`hash`/`version` in the same PR.
 
-To refresh manually: `./modules/NAME/update-hash.sh`.
+To refresh manually: `nix develop -c ./modules/NAME/update-hash.sh`.
 
 ### Bitwarden
 
