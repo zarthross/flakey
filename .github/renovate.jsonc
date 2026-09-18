@@ -4,6 +4,12 @@
   "dependencyDashboard": true,
   "branchPrefix": "renovate/",
   "labels": ["dependencies"],
+  // Merge automatically once a PR is green (CI + minimumReleaseAge, both
+  // enforced as required status checks on main) and up-to-date with main.
+  // Uses platformAutomerge (GitHub's native merge, default true) - safe
+  // because main's ruleset requires the CI and renovate/stability-days
+  // checks, so GitHub won't merge a red/pending PR.
+  "automerge": true,
   // Avoids the default renovate@whitesourcesoftware.com author, which Mend
   // flags with "Vigilant Mode" (visibly-unsigned-commit warnings) on
   // GitHub.com since that address belongs to an account this repo doesn't
