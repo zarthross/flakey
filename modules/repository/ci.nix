@@ -60,7 +60,7 @@ let
       # goes through pinned-actions.json's SHA pinning. Kept up to date via
       # the customManager in .github/renovate.jsonc (guarded by the repo's
       # minimumReleaseAge cooldown, same as everything else).
-      renovate-version = "44.68.3";
+      renovate-version = "44.101.2";
       # Bind-mounts the runner host's real nix (store + running daemon, set
       # up by installNixAction above) into Renovate's container, so
       # postUpgradeTasks' nix invocations substitute from cache.nixos.org
