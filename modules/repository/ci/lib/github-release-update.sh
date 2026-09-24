@@ -2,6 +2,11 @@
 # Reusable functions for refreshing a package's hash from a known release tag.
 # Version discovery is Renovate's job now; these only fetch by exact tag.
 
+# `nix develop`'s --extra-experimental-features doesn't propagate to nested
+# `nix` calls in this script (e.g. `nix hash convert`), which then fail
+# silently in Renovate's container and produce an empty hash. Force it here.
+export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG$'\n'}experimental-features = nix-command flakes"
+
 # Usage: get_release_json OWNER REPO TAG
 # Prints the raw release JSON, for scripts that need multiple assets from it
 # (e.g. multi-platform packages).
@@ -69,6 +74,11 @@ update_single_asset_hash() {
   version=$(echo -n "$tag" | jq -Rr "$version_transform")
   asset=$(fetch_release_by_tag "$owner" "$repo" "$tag" "$asset_pattern")
 
+  if [[ -z "$(echo "$asset" | jq -r '.sha256')" ]]; then
+    echo "error: empty sha256 for $repo@$tag" >&2
+    exit 1
+  fi
+
   echo "$sources" | jq --argjson asset "$asset" --arg version "$version" \
     '. + {version: $version} + $asset' >"$sources_path"
 
@@ -95,6 +105,12 @@ update_multi_platform_hash() {
     echo "  Processing $platform..."
     platform_json=$(echo "$sources" | jq -c --arg p "$platform" '.[$p]')
     result=$("$resolver" "$release" "$platform_json")
+
+    if [[ -z "$(echo "$result" | jq -r '.hash')" ]]; then
+      echo "error: empty hash for $repo@$tag ($platform)" >&2
+      exit 1
+    fi
+
     sources=$(echo "$sources" | jq --arg platform "$platform" --argjson result "$result" \
       '.[$platform] += $result')
   done
