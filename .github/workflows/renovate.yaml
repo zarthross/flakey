@@ -23,7 +23,7 @@ jobs:
         RENOVATE_CUSTOM_ENV_VARIABLES: '{"GITHUB_TOKEN":"{{ secrets.GITHUB_TOKEN }}"}'
         RENOVATE_SECRETS: '{"GITHUB_TOKEN":"${{ secrets.GITHUB_TOKEN }}"}'
       name: Self-hosted Renovate
-      uses: renovatebot/github-action@c314dda4a9a93b08239ec978f2043b9a433b9ac4
+      uses: renovatebot/github-action@9fea9f0fbf80401026d11d03911d62b1f70fef1f
       with:
         configurationFile: .github/renovate-global-config.json
         docker-cmd-file: modules/repository/ci/renovate-docker-cmd.sh
