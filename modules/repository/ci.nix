@@ -61,7 +61,6 @@ let
       '';
     };
     "with" = {
-      configurationFile = ".github/renovate-global-config.json";
       token = "\${{ secrets.RENOVATE_TOKEN }}";
       # Pinned to an explicit patch version rather than left on the action's
       # default floating "44" major-version tag: a floating tag can start

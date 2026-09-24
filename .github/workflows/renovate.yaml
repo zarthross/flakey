@@ -34,7 +34,6 @@ jobs:
       name: Self-hosted Renovate
       uses: renovatebot/github-action@9fea9f0fbf80401026d11d03911d62b1f70fef1f
       with:
-        configurationFile: .github/renovate-global-config.json
         docker-cmd-file: modules/repository/ci/renovate-docker-cmd.sh
         docker-user: root
         docker-volumes: /tmp:/tmp ; /nix:/nix
