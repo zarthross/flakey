@@ -86,10 +86,11 @@
       "pinDigests": true
     },
     {
-      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json or ci.nix's renovate-version pin changes, so the Nix-rendered workflows stay in sync in the same commit",
+      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json or ci.nix's renovate-version pin changes, so the Nix-rendered workflows stay in sync in the same commit. Also covers flake.lock: lockFileMaintenance bumps actions-nix (the renderer itself) and other inputs render-workflows.sh depends on, which can change its output even with no diff to pinned-actions.json/ci.nix - without this, that PR's checked-in workflow YAML could silently drift from what render-workflows would now produce.",
       "matchFileNames": [
         "modules/repository/ci/pinned-actions.json",
-        "modules/repository/ci.nix"
+        "modules/repository/ci.nix",
+        "flake.lock"
       ],
       "postUpgradeTasks": {
         "commands": ["bash modules/repository/ci/renovate-render-workflows.sh"],
