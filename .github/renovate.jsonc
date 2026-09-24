@@ -4,31 +4,8 @@
   "dependencyDashboard": true,
   "branchPrefix": "renovate/",
   "labels": ["dependencies"],
-  // Merge automatically once a PR is green (CI + minimumReleaseAge, both
-  // enforced as required status checks on main) and up-to-date with main.
-  // Uses platformAutomerge (GitHub's native merge, default true) - safe
-  // because main's ruleset requires the CI and renovate/stability-days
-  // checks, so GitHub won't merge a red/pending PR.
   "automerge": true,
-  // Avoids the default renovate@whitesourcesoftware.com author, which Mend
-  // flags with "Vigilant Mode" (visibly-unsigned-commit warnings) on
-  // GitHub.com since that address belongs to an account this repo doesn't
-  // control. Attributing commits to the repo owner's own identity instead.
-  // Display name MUST be RFC5322-quoted: an unquoted "(via renovate)" is
-  // parsed as a comment and silently stripped, confirmed live - the first
-  // real PR's commit author ended up as plain "zarthross" instead.
-  "gitAuthor": "\"zarthross (via renovate)\" <1111592+zarthross@users.noreply.github.com>",
-  // The `nix` manager (flake.lock inputs), `custom.jsonata` (pinned-actions.json),
-  // and `custom.regex` (renovate-version pin, per-package sources.json tags)
-  // are enabled.
-  // Note: when enabledManagers is set, custom managers must be explicitly
-  // added as "custom.jsonata"/"custom.regex", or they silently extract
-  // nothing - same trap as the nix manager's own enabled flag below.
   "enabledManagers": ["nix", "custom.jsonata", "custom.regex"],
-  // The `nix` manager ships with `enabled: false` in its own defaultConfig
-  // (it's opt-in, unlike most GitHub-recommended managers) - enabledManagers
-  // above only controls which managers are *allowed* to run, it does NOT
-  // flip this per-manager default. Both are required.
   "nix": {
     "enabled": true
   },
@@ -36,16 +13,7 @@
     "enabled": true,
     "schedule": ["before 6am"]
   },
-  // 3-day cooldown before proposing any update, so a freshly (possibly
-  // compromised or buggy) tagged release has time to be pulled/flagged
-  // upstream before flakey picks it up.
   "minimumReleaseAge": "3 days",
-  // GitHub Actions versions used in generated .github/workflows/*.yaml are
-  // NOT edited directly - they're rendered by `nix run .#render-workflows`
-  // from modules/repository/ci.nix's `actionUses` helper, which reads
-  // modules/repository/ci/pinned-actions.json (the actual source of truth).
-  // Kept as plain JSON, not Nix, so Renovate's JSONata custom manager can
-  // update it directly without needing to parse/edit Nix syntax.
   "customManagers": [
     {
       "customType": "jsonata",

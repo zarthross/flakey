@@ -49,6 +49,16 @@ let
       RENOVATE_CUSTOM_ENV_VARIABLES = builtins.toJSON {
         GITHUB_TOKEN = "{{ secrets.GITHUB_TOKEN }}";
       };
+      RENOVATE_REPOSITORIES = "\${{ github.repository }}";
+      RENOVATE_GIT_AUTHOR = ''"zarthross (via renovate)" <1111592+zarthross@users.noreply.github.com>'';
+      RENOVATE_ONBOARDING = false;
+      RENOVATE_REQUIRE_CONFIG = "required";
+      RENOVATE_ALLOWED_COMMANDS = ''
+        [
+          "^bash modules/repository/ci/renovate-render-workflows\\.sh$",
+          "^nix --extra-experimental-features nix-command --extra-experimental-features flakes develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
+        ]
+      '';
     };
     "with" = {
       configurationFile = ".github/renovate-global-config.json";
