@@ -39,6 +39,11 @@ let
       };
       RENOVATE_CUSTOM_ENV_VARIABLES = builtins.toJSON {
         GITHUB_TOKEN = "{{ secrets.GITHUB_TOKEN }}";
+        # Set globally (rather than per-script) so every postUpgradeTask -
+        # update-hash.sh (all packages) and renovate-generate.sh alike -
+        # gets the same nix-command/flakes support and GitHub auth for
+        # client-side flake-input fetching, with one source of truth.
+        NIX_CONFIG = "access-tokens = github.com={{ secrets.GITHUB_TOKEN }}\nexperimental-features = nix-command flakes";
       };
       RENOVATE_REPOSITORIES = "\${{ github.repository }}";
       RENOVATE_GIT_AUTHOR = ''"zarthross (via renovate)" <1111592+zarthross@users.noreply.github.com>'';
@@ -47,7 +52,7 @@ let
       RENOVATE_ALLOWED_COMMANDS = ''
         [
           "^bash modules/repository/ci/lib/renovate-generate\\.sh$",
-          "^nix --extra-experimental-features nix-command --extra-experimental-features flakes develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
+          "^nix develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
         ]
       '';
     };

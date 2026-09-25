@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Reusable functions for refreshing a package's hash from a known release tag.
 # Version discovery is Renovate's job now; these only fetch by exact tag.
-
-# `nix develop`'s --extra-experimental-features doesn't propagate to nested
-# `nix` calls in this script (e.g. `nix hash convert`), which then fail
-# silently in Renovate's container and produce an empty hash. Force it here.
-export NIX_CONFIG="${NIX_CONFIG:+$NIX_CONFIG$'\n'}experimental-features = nix-command flakes"
+#
+# NIX_CONFIG's experimental-features is set globally for all postUpgradeTasks
+# via RENOVATE_CUSTOM_ENV_VARIABLES - see modules/repository/ci/ci.nix. This
+# is required for nested `nix` calls in this script (e.g. `nix hash convert`)
+# since `nix develop`'s own --extra-experimental-features doesn't propagate
+# to them, and they'd otherwise fail silently in Renovate's container and
+# produce an empty hash.
 
 # Usage: get_release_json OWNER REPO TAG
 # Prints the raw release JSON, for scripts that need multiple assets from it

@@ -23,9 +23,11 @@ jobs:
         RENOVATE_ALLOWED_COMMANDS: |-
           [
             "^bash modules/repository/ci/lib/renovate-generate\\.sh$",
-            "^nix --extra-experimental-features nix-command --extra-experimental-features flakes develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
+            "^nix develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
           ]
-        RENOVATE_CUSTOM_ENV_VARIABLES: '{"GITHUB_TOKEN":"{{ secrets.GITHUB_TOKEN }}"}'
+        RENOVATE_CUSTOM_ENV_VARIABLES: '{"GITHUB_TOKEN":"{{ secrets.GITHUB_TOKEN }}","NIX_CONFIG":"access-tokens
+          = github.com={{ secrets.GITHUB_TOKEN }}\nexperimental-features = nix-command
+          flakes"}'
         RENOVATE_GIT_AUTHOR: '"zarthross (via renovate)" <1111592+zarthross@users.noreply.github.com>'
         RENOVATE_ONBOARDING: false
         RENOVATE_REPOSITORIES: ${{ github.repository }}
