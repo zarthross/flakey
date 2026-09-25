@@ -39,7 +39,7 @@ jobs:
         docker-cmd-file: modules/repository/ci/lib/renovate-docker-cmd.sh
         docker-user: root
         docker-volumes: /tmp:/tmp ; /nix:/nix
-        renovate-version: 44.115.4
+        renovate-version: 44.115.5
         token: ${{ secrets.RENOVATE_TOKEN }}
 name: renovate
 'on':
