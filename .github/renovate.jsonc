@@ -54,10 +54,11 @@
       "pinDigests": true
     },
     {
-      "description": "Regenerate flake.nix and .github/workflows/*.yaml after pinned-actions.json/ci.nix pin changes, or after flake.lock (lockFileMaintenance can bump actions-nix - the workflow renderer itself - or other inputs it depends on, changing rendered output with no diff to pinned-actions.json/ci.nix). renovate-generate.sh runs the same devshell 'generate' command as `nix develop -c generate` (write-flake + render-workflows).",
+      "description": "Regenerate flake.nix and .github/workflows/*.yaml after pinned-actions.json/ci.nix/nix-manager updates.",
       "matchFileNames": [
         "modules/repository/ci/pinned-actions.json",
         "modules/repository/ci/ci.nix",
+        "flake.nix",
         "flake.lock"
       ],
       "postUpgradeTasks": {
