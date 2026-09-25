@@ -19,7 +19,9 @@
       "customType": "jsonata",
       "description": "Update pinned GitHub Actions recorded in modules/repository/ci/pinned-actions.json",
       "fileFormat": "json",
-      "managerFilePatterns": ["/^modules/repository/ci/pinned-actions\\.json$/"],
+      "managerFilePatterns": [
+        "/^modules/repository/ci/pinned-actions\\.json$/"
+      ],
       "matchStrings": [
         "$each($, function($v, $k) { { \"depName\": $k, \"currentValue\": $v.version, \"currentDigest\": $v.sha } })"
       ],
@@ -27,11 +29,9 @@
     },
     {
       "customType": "regex",
-      "description": "Keep the pinned renovate-version (renovatebot/github-action input, in modules/repository/ci.nix) up to date. Deliberately pinned rather than left on the action's default floating '44' tag, so a broken release can't silently start being used. This still benefits from minimumReleaseAge above, so a newly published release must survive 3 days untouched before it's proposed here.",
-      "managerFilePatterns": ["/^modules/repository/ci\\.nix$/"],
-      "matchStrings": [
-        "renovate-version = \"(?<currentValue>[\\d.]+)\";"
-      ],
+      "description": "Keep the pinned renovate-version (renovatebot/github-action input, in modules/repository/ci/ci.nix) up to date. Deliberately pinned rather than left on the action's default floating '44' tag, so a broken release can't silently start being used. This still benefits from minimumReleaseAge above, so a newly published release must survive 3 days untouched before it's proposed here.",
+      "managerFilePatterns": ["/^modules/repository/ci/ci\\.nix$/"],
+      "matchStrings": ["renovate-version = \"(?<currentValue>[\\d.]+)\";"],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "ghcr.io/renovatebot/renovate",
       "versioningTemplate": "docker",
@@ -54,16 +54,19 @@
       "pinDigests": true
     },
     {
-      "description": "Regenerate .github/workflows/*.yaml after pinned-actions.json or ci.nix's renovate-version pin changes, so the Nix-rendered workflows stay in sync in the same commit. Also covers flake.lock: lockFileMaintenance bumps actions-nix (the renderer itself) and other inputs render-workflows.sh depends on, which can change its output even with no diff to pinned-actions.json/ci.nix - without this, that PR's checked-in workflow YAML could silently drift from what render-workflows would now produce.",
+      "description": "Regenerate flake.nix and .github/workflows/*.yaml after pinned-actions.json/ci.nix pin changes, or after flake.lock (lockFileMaintenance can bump actions-nix - the workflow renderer itself - or other inputs it depends on, changing rendered output with no diff to pinned-actions.json/ci.nix). renovate-generate.sh runs the same devshell 'generate' command as `nix develop -c generate` (write-flake + render-workflows).",
       "matchFileNames": [
         "modules/repository/ci/pinned-actions.json",
-        "modules/repository/ci.nix",
+        "modules/repository/ci/ci.nix",
         "flake.lock"
       ],
       "postUpgradeTasks": {
-        "commands": ["bash modules/repository/ci/renovate-render-workflows.sh"],
+        "commands": ["bash modules/repository/ci/lib/renovate-generate.sh"],
         "executionMode": "branch",
-        "fileFilters": [".github/workflows/*.yaml"]
+        "fileFilters": [
+          "flake.nix",
+          ".github/workflows/*.yaml"
+        ]
       }
     },
     {

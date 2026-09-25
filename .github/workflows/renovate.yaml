@@ -22,7 +22,7 @@ jobs:
         LOG_LEVEL: debug
         RENOVATE_ALLOWED_COMMANDS: |-
           [
-            "^bash modules/repository/ci/renovate-render-workflows\\.sh$",
+            "^bash modules/repository/ci/lib/renovate-generate\\.sh$",
             "^nix --extra-experimental-features nix-command --extra-experimental-features flakes develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
           ]
         RENOVATE_CUSTOM_ENV_VARIABLES: '{"GITHUB_TOKEN":"{{ secrets.GITHUB_TOKEN }}"}'
@@ -34,7 +34,7 @@ jobs:
       name: Self-hosted Renovate
       uses: renovatebot/github-action@9fea9f0fbf80401026d11d03911d62b1f70fef1f
       with:
-        docker-cmd-file: modules/repository/ci/renovate-docker-cmd.sh
+        docker-cmd-file: modules/repository/ci/lib/renovate-docker-cmd.sh
         docker-user: root
         docker-volumes: /tmp:/tmp ; /nix:/nix
         renovate-version: 44.101.2

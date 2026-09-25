@@ -35,6 +35,11 @@
             help = "Regenerate flake.nix from modules/**/flake-file.inputs declarations";
             command = "exec nix run .#write-flake -- \"$@\"";
           }
+          {
+            name = "generate";
+            help = "Regenerate flake.nix and .github/workflow files";
+            command = "nix run .#write-flake && exec nix run .#render-workflows";
+          }
         ];
         devshell.startup.pre-commit.text = config.pre-commit.installationScript;
       };

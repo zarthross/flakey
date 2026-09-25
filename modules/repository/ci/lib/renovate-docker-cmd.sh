@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Mounted into Renovate's container via renovatebot/github-action's
-# docker-cmd-file (see modules/repository/ci.nix's renovate job), replacing
-# the default entrypoint. Runs as root (docker-user: root) so it can adjust
-# PATH before dropping to the unprivileged "ubuntu" user Renovate normally
-# runs as.
+# docker-cmd-file (see modules/repository/ci/ci.nix's renovate job),
+# replacing the default entrypoint. Runs as root (docker-user: root) so it
+# can adjust PATH before dropping to the unprivileged "ubuntu" user Renovate
+# normally runs as.
 #
 # The GitHub Actions runner's real /nix (store + running nix daemon, set up
 # by installNixAction earlier in the same job) is bind-mounted into this

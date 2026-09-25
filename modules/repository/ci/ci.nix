@@ -1,13 +1,10 @@
 { inputs, ... }:
 let
-  # Single source of truth for pinned GitHub Action versions/SHAs.
-  # Kept as data (not Nix) so Renovate's JSONata custom manager can update it
-  # directly. See .github/renovate.jsonc for the manager config that keeps
-  # this file up to date.
-  pinnedActions = builtins.fromJSON (builtins.readFile ./ci/pinned-actions.json);
-  # Renders "owner/repo@<sha>" pinned to the commit SHA recorded in
-  # pinned-actions.json. The human-readable version (e.g. "v4") lives only in
-  # pinned-actions.json, not here.
+  # Pinned GitHub Action versions/SHAs, kept as data so Renovate's JSONata
+  # custom manager (.github/renovate.jsonc) can update it directly.
+  pinnedActions = builtins.fromJSON (builtins.readFile ./pinned-actions.json);
+  # "owner/repo@<sha>" pinned to pinned-actions.json's sha; the readable
+  # version (e.g. "v4") lives only there.
   actionUses = name: "${name}@${pinnedActions.${name}.sha}";
 
   # Reusable action components
@@ -32,16 +29,10 @@ let
     uses = actionUses "renovatebot/github-action";
     env = {
       LOG_LEVEL = "debug"; # TEMP: debugging "Repository has changed" abort
-      # postUpgradeTasks run inside this container. Store operations
-      # (build/substitute) go through the bind-mounted host nix daemon set
-      # up by installNixAction above, so no store credentials need to be
-      # injected here. Flake-input fetching (e.g. resolving flake.lock)
-      # happens client-side though, so GITHUB_TOKEN is still passed
-      # through, via RENOVATE_CUSTOM_ENV_VARIABLES (the only
-      # env-injection mechanism that reaches postUpgradeTasks child
-      # processes) routed through RENOVATE_SECRETS + {{ secrets.X }}
-      # templating (rather than placing the raw value directly in
-      # customEnvVariables) so it's redacted in logs.
+      # GITHUB_TOKEN reaches postUpgradeTasks child processes only via
+      # RENOVATE_CUSTOM_ENV_VARIABLES, routed through RENOVATE_SECRETS +
+      # {{ secrets.X }} templating so it's redacted in logs (not placed
+      # directly in customEnvVariables).
       # https://docs.renovatebot.com/self-hosted-configuration/#customenvvariables
       RENOVATE_SECRETS = builtins.toJSON {
         GITHUB_TOKEN = "\${{ secrets.GITHUB_TOKEN }}";
@@ -55,7 +46,7 @@ let
       RENOVATE_REQUIRE_CONFIG = "required";
       RENOVATE_ALLOWED_COMMANDS = ''
         [
-          "^bash modules/repository/ci/renovate-render-workflows\\.sh$",
+          "^bash modules/repository/ci/lib/renovate-generate\\.sh$",
           "^nix --extra-experimental-features nix-command --extra-experimental-features flakes develop \\.\\./\\.\\. -c \\./update-hash\\.sh$"
         ]
       '';
@@ -81,7 +72,7 @@ let
       # Runs as root long enough to fix up PATH/NIX_REMOTE for the
       # bind-mounted daemon, then drops to the unprivileged user Renovate
       # normally runs as.
-      docker-cmd-file = "modules/repository/ci/renovate-docker-cmd.sh";
+      docker-cmd-file = "modules/repository/ci/lib/renovate-docker-cmd.sh";
       docker-user = "root";
     };
   };
