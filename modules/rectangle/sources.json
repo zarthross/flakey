@@ -1,12 +1,12 @@
 {
   "owner": "rxhanson",
   "repo": "Rectangle",
-  "tag": "v1.100",
+  "tag": "v2.0.1",
   "asset_pattern": "\\.dmg$",
   "version_transform": "sub(\"^v\"; \"\")",
-  "version": "1.100",
-  "id": 530026968,
-  "name": "Rectangle1.100.dmg",
-  "url": "https://github.com/rxhanson/Rectangle/releases/download/v1.100/Rectangle1.100.dmg",
-  "sha256": "5cfbe9b68a558458302c5305cb7060491f68029338e2a4561c54a2981eb8622f"
+  "version": "2.0.1",
+  "id": 590813962,
+  "name": "Rectangle2.0.1.dmg",
+  "url": "https://github.com/rxhanson/Rectangle/releases/download/v2.0.1/Rectangle2.0.1.dmg",
+  "sha256": "4c1e1dd5b2ac06f29f89e5cb61ca1f2e74bfdc5452dc5828aa06c28580788491"
 }
