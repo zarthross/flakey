@@ -34,7 +34,7 @@ jobs:
         RENOVATE_REQUIRE_CONFIG: required
         RENOVATE_SECRETS: '{"GITHUB_TOKEN":"${{ secrets.GITHUB_TOKEN }}"}'
       name: Self-hosted Renovate
-      uses: renovatebot/github-action@230ce922b08968d0a4f6f70f295601daff09ef1d
+      uses: renovatebot/github-action@f0f41e5f2e706165f6814b1d0f0d0e319de7d1d9
       with:
         docker-cmd-file: modules/repository/ci/lib/renovate-docker-cmd.sh
         docker-user: root
