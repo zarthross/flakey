@@ -12,7 +12,7 @@
     "sha": "cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8"
   },
   "renovatebot/github-action": {
-    "version": "v46.3.9",
-    "sha": "a63d9a7bc606f7336fd20b47f2f32259a35e6213"
+    "version": "v46.3.10",
+    "sha": "2804199d260ad00c1fae0e9e842888369391c776"
   }
 }
