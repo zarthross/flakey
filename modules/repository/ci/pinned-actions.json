@@ -4,8 +4,8 @@
     "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1"
   },
   "cachix/install-nix-action": {
-    "version": "v31.11.4",
-    "sha": "91f6a0f59e94dfb2cfed0f4000f36a68ead1d20c"
+    "version": "v31.11.5",
+    "sha": "3dc140bfc76c49fbd4dd958429132e3746bcb086"
   },
   "EndBug/add-and-commit": {
     "version": "v11.1.1",

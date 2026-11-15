@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-    - uses: cachix/install-nix-action@91f6a0f59e94dfb2cfed0f4000f36a68ead1d20c
+    - uses: cachix/install-nix-action@3dc140bfc76c49fbd4dd958429132e3746bcb086
       with:
         nix_path: nixpkgs=channel:nixos-unstable
     - name: Run nix flake check
