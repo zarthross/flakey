@@ -117,12 +117,19 @@
             stripFile = d: {
               inherit (d) enable flags cond;
             };
+            # `flags` are unioned across definitions (dedup, first-seen order),
+            # so two trees can each add `+flag`s to the same module. `enable`
+            # and `cond` can't be meaningfully combined, so a mismatch there
+            # is still a hard error.
             normed = map (d: normalizeModuleDef d.value // { inherit (d) file; }) defs;
             first = builtins.head normed;
-            conflicting = builtins.filter (d: stripFile d != stripFile first) normed;
+            conflicting = builtins.filter (d: d.enable != first.enable || d.cond != first.cond) normed;
           in
           if conflicting == [ ] then
-            stripFile first
+            {
+              inherit (first) enable cond;
+              flags = lib.unique (lib.concatMap (d: d.flags) normed);
+            }
           else
             throw ''
               The doom module definition at `${lib.showOption loc}` has conflicting definitions:
