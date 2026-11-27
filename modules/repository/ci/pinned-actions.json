@@ -5,7 +5,7 @@
   },
   "cachix/install-nix-action": {
     "version": "v32",
-    "sha": "bb0495a1086c46893eee56f32fd192dfe4a15bb9"
+    "sha": "382a9ed9481c7c1f94f68b72ef105b3417c73877"
   },
   "EndBug/add-and-commit": {
     "version": "v11.1.1",
